@@ -1,0 +1,36 @@
+-----------netCrack guide-----------
+
+netCrack is a tool used to automate an attack on a wifi access point.
+It is wizard-based like all undertaker tools.
+It uses a a multi-step process, divided by the dependencies used.
+
+-----------The process-------------
+
+Step one: Setup
+
+This is a small step, primarily used to set up a WLAN1 interface in monitor mode. It uses airmon-ng as a dependency.
+You will shut down all network connections, and active a WLAN1 interface ready for the next step.
+
+Step two: Monitoring
+
+Check for Wireless networks to monitor, then choose one. This step will show wireless networks and their connected clients,
+as well as set up other settings for later stages of the process. This uses airodump-ng as a dependency.
+Depending if you choose to do step three, you may or may not capture the WPA handshake here.
+
+Step three (optional): Deauthing
+
+WPA handshakes hapen often, but not everyone is willing to wait that long. In that case, you can force it with a deauth.
+Using aireplay-ng as a dependency, you will start a deauth process to force a WPA handshake to occur and then capture it.
+
+Step four: Cleanup
+
+Now that you have the handshake that you came for, you will clean up the settings of the first step of this process.
+This will involve restarting NetworkManager and stopping your WLAN1 interface.
+
+Step five: Cracking the handshake
+
+Now, unless you choose to terminate netCrack here and crack the handshake at a later date, you will crack the captured handshake file. 
+You will have the option to use one of two dependencies, Hashcat or aircrack-ng. Both will be cracked using simple wordlist attacks.
+If you do not have a wordlist, you will be prompted to create one using a program like crunch or cupp.
+
+----------
