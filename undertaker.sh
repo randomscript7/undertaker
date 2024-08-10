@@ -1,19 +1,10 @@
 #!/bin/bash
 
-clear
-cat /usr/share/undertaker/logo.txt
-echo ""
-echo "-----------"
-echo "Welcome to the undertaker networking tool."
-echo "This tool is a multipurpose virtual assistant, completley hardcoded to be fully customizable."
-echo "It has little function of its own other than connecting 'modules' (scripts) to a centralized tool."
-echo "This allows documentation and heightened ease of use of numerous tools that would usually be understood only by its creator."
-echo "-----------"
-
+# Function that asks what script the user wants to run, and runs it
 taskPicker(){
 
     echo "You may now excecute the number according to an undertaker module."
-	echo "if you don't know which module you're looking for, you can search for one with the command < search >."
+	echo "If you don't know which module you're looking for, you can search for one with the command < search >."
 	read -p "> " task_number
 	
 
@@ -25,6 +16,7 @@ taskPicker(){
 
 }
 
+# Function that actually runs scripts
 Excecute(){
 	local task_number=$1
 	case $task_number in
@@ -74,7 +66,9 @@ Excecute(){
 		search)
 			echo "----------"
 			read -p "Enter your search terms: " searchTerm
-			echo "Searching moduleList.txt for scripts containing the term '$searchTerm'"
+			echo "Searching moduleList.txt for scripts containing the term '$searchTerm'..."
+			sleep 0.5
+			echo "Results found:"
 			echo "----------"
 			grep "$searchTerm" -i -s --colour red /usr/share/undertaker/docs/moduleList.txt
 			exit 0
@@ -89,10 +83,38 @@ Excecute(){
 	esac
 }
 
+# ----------SCRIPT STARTS HERE----------------
+
+# Detect whether the script was executed with an argument or not
+if [ "$#" -eq 0 ]; then	
+	# Nothing. We just open the menu like usual :D
+	# Open menu to introduce script
+	Header () {
+		here=$(pwd)
+		cd /usr/share/undertaker
+		./header.sh
+		cd $here
+	}
+
+	Header
+	echo ""
+	echo "-----------"
+	echo "Welcome to the undertaker networking tool."
+	echo "This tool is a multipurpose virtual assistant, completley hardcoded to be fully customizable."
+	echo "It has little function of its own other than connecting 'modules' (scripts) to a centralized tool."
+	echo "This allows documentation and heightened ease of use of numerous tools that would usually be understood only by its creator."
+	echo "-----------"
+	
+	#This prompts the user to pick a module, and executes it
+	taskPicker
+else
+	# If this script was invoked with a module code, go to that module directly
+	echo "Argument detected."
+	echo "Fast-tracking to module marked as $1..."
+	sleep 0.5
+	Excecute "$1"
+fi
 
 
-taskPicker
-#this uses the Excecute function to do a certain task
-#Excecute "$task_number"
 exit 0
 

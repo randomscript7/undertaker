@@ -2,10 +2,17 @@
 
 #This is a script that backs up/extracts the undertaker directory and notes file.
 
+Header () {
+here=$(pwd)
 cd /usr/share/undertaker
 ./header.sh
-cd /home/scriptmonkey
+cd $here
+}
+
+Header
+echo "This requires sudo priviliges. Please authenticate..."
 sudo -v
+echo "-----------------------------"
 echo "Running backupProcedure..."
 echo "-----------------------------"
 read -p "Would you like to backup your selected files or extract a backup? (backup/extract): " op
