@@ -1,7 +1,13 @@
 #!/bin/bash
 
-clear
-cat /usr/share/undertaker/logo.txt
+Header () {
+here=$(pwd)
+cd /usr/share/undertaker
+./header.sh
+cd $here
+}
+
+Header
 echo ""
 echo "Welcome to netCrack."
 echo "This is a program that will utilize the aircrack-ng suite of tools to excecute a full wifi attack."

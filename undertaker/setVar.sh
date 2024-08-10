@@ -1,13 +1,19 @@
 #!/bin/bash
 
-clear
-cat /usr/share/undertaker/logo.txt
+Header () {
+here=$(pwd)
+cd /usr/share/undertaker
+./header.sh
+cd $here
+}
+
+Header
 echo ""
 echo "-----------"
 echo "Welcome to setVar."
 echo "This tool is a kind of undertaker copy in fuction."
 echo "Commonly changed settings that require file editing can be done so faster here."
-echo "Like modules in undertaker, every option here serves its own purpose."
+echo "Like modules in undertaker, every option serves its own purpose."
 echo "-----------"
 
 taskPicker(){
