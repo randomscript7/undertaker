@@ -3,6 +3,8 @@
 A multi-script networking tool written by randomscript7
 --------------------------------------------------------------
 
+_**undertaker.sh is actively under development. More changes to both the initial networking script and modules are underway. More modules are also being actively created. If you have one of your own that fits the project, you can contact us to integrate your module directly into the project files. This process will simplify over time as the project matures. Greater repository changes are certain over time.**_
+
 DESCRIPTION: undertaker.sh is a simple, lightweight bash script that centralizes control to scripts (referred to as 'modules').
 If you have a file archiving script called backup.sh and a system update script called update.sh, undertaker.sh will allow you to execute both from the same location. Modules can have any purpose; General, automation, pentesting, creative, etc. These purposes (referred to as classes) vary and are all included.
 
