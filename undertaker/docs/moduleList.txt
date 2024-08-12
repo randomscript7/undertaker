@@ -1,12 +1,12 @@
-T1) Hashcracker - question based hash-cracking that determines settings needed to effectivley crack a specifies hash and/or file. This utilizes hashcat as a dependency.
+P1) Hashcracker - question based hash-cracking that determines settings needed to effectivley crack a specifies hash and/or file. This utilizes hashcat as a dependency.
 -----------
-T2) UpdateProcedure - Debian systems should have their packages updated regularly. This task will update/upgrade all packages non-intrusivley.
+G1) UpdateProcedure - Debian systems should have their packages updated regularly. This task will update/upgrade all packages non-intrusivley.
 -----------
-T3) hashmaker - Create a hash of a string. Valid algorithms are md5, SHA1, SHA-256, and SHA-512.
+P2) hashmaker - Create a hash of a string. Valid algorithms are md5, SHA1, SHA-256, and SHA-512.
 ----------
-T4) backupProcedure - Create a backup of files/directories you provide.
+G3) backupProcedure - Create a backup of files/directories you provide.
 -----------
-T4) setVar - Sublevel of undertaker to toggle common settings like Smart Charging.
+G2) setVar - Sublevel of undertaker to toggle common settings like Smart Charging.
 -----------
-A1) netCrack -  This will set up a wlan1 interface to monitor nearby networks. It uses the Aircrack suite and reaver as a dependency.
+P3) netCrack -  This will set up a wlan1 interface to monitor nearby networks. It uses the Aircrack suite and reaver as a dependency.
 -----------

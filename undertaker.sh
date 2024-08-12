@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Opens menu to introduce script
+Header () {
+	here=$(pwd)
+	cd /usr/share/undertaker
+	./header.sh
+	cd $here
+}
+
 # Function that asks what script the user wants to run, and runs it
 taskPicker(){
 
@@ -21,36 +29,36 @@ Excecute(){
 	local task_number=$1
 	case $task_number in
 
-		T1)
-			/usr/share/undertaker/hashcracker.sh
+		G1)
+			/usr/share/undertaker/mods/general/UpdateProcedure.sh
 			exit 0
 			;;
 
-		T2)
-			/usr/share/undertaker/UpdateProcedure.sh
+		G2)
+			/usr/share/undertaker/mods/general/setVar.sh
 			exit 0
 			;;
 
-		T3)
-			/usr/share/undertaker/hashmaker.sh
+		G3)
+			/usr/share/undertaker/mods/general/backupProcedure.sh
 			exit 0
 			;;
 
-		T4)
+		P1)
 
-			/usr/share/undertaker/backupProcedure.sh
+			/usr/share/undertaker/mods/pentest/hashcracker.sh
 			exit 0
 			;;
 
-		T5)
+		P2)
 
-			/usr/share/undertaker/setVar.sh
+			/usr/share/undertaker/mods/pentest/hashmaker.sh
 			exit 0
 			;;
 
-		A1)
+		P3)
 
-			/usr/share/undertaker/netCrack.sh
+			/usr/share/undertaker/mods/pentest/netCrack.sh
 			exit 0
 			;;
 
@@ -74,6 +82,45 @@ Excecute(){
 			exit 0
 			;;
 
+		setup)
+			if ! test -f /usr/share/undertaker/undertaker; then
+				
+				clear
+				Header
+				echo "undertaker has already been set up, or reconfigured in a way that cannot be reverted by the undertaker setup utiliy."
+				echo "If you require an automatic setup, remove the old files manually and reclone the repository."
+				echo "This can be achieved through the following command: "
+				echo "----------"
+				echo "git clone https://github.com/randomscript7/undertaker.sh /usr/share"
+				echo "----------"
+				echo "And it will be set up anew by running [undertaker.sh setup] again."
+				exit 1
+
+			else
+	
+				clear
+				Header
+				echo "Entering undertaker setup..."
+				sleep 0.5
+				echo "If you're here, you just cloned the undertaker github repository."
+				echo "You can CTRL-C to exit this if it was on accident."
+				echo "If not, your newly cloned repository will be cleaned up for you."
+				sleep 1
+				echo "----------"
+				echo "Relocating the main undertaker file to bin..."
+				sudo mv /usr/share/undertaker/undertaker.sh /bin
+				echo "Done."
+				echo "----------"
+				echo "Cleaning up the undertaker directory..."
+				sudo mv /usr/share/undertaker/undertaker/* /usr/share/undertaker
+				sudo rm /usr/share/undertaker/undertaker
+				echo "Done."
+				echo "----------"
+				echo "The setup process has finished."
+				exit 0
+	
+			fi
+			;;
 		*)
 			echo "----------"
 			echo "That isn't a valid module. If it exists, check to make sure it's downloaded in the /undertaker directory and that it's included in the undertaker.sh file."
@@ -88,13 +135,6 @@ Excecute(){
 # Detect whether the script was executed with an argument or not
 if [ "$#" -eq 0 ]; then	
 	# Nothing. We just open the menu like usual :D
-	# Open menu to introduce script
-	Header () {
-		here=$(pwd)
-		cd /usr/share/undertaker
-		./header.sh
-		cd $here
-	}
 
 	Header
 	echo ""
@@ -110,7 +150,7 @@ if [ "$#" -eq 0 ]; then
 else
 	# If this script was invoked with a module code, go to that module directly
 	echo "Argument detected."
-	echo "Fast-tracking to module marked as $1..."
+	echo "Fast-tracking to module marked as '$1'..."
 	sleep 0.5
 	Excecute "$1"
 fi
