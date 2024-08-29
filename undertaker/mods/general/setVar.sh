@@ -18,8 +18,8 @@ echo "-----------"
 
 taskPicker(){
 
-    echo "You may now excecute the number according to your desired setting."
-	echo "if you don't know which module you're looking for, you can search for one with the command < search >."
+    echo "You may now excecute the desired setting."
+	echo "if you don't know which setting you're looking for, you can search for one with the command < search >."
 	read -p "> " task_number
 	
 
@@ -37,41 +37,83 @@ Excecute(){
 
 		powerLimit)
 
-		#Value that defines whether Smart Charging is on or off
-		$SmartCharge=true;
+			#Value that defines whether Smart Charging is on or off
+			SmartCharge=true;
 
-		#Enable smart charging
-		Efind="#STOP_CHARGE_THRESH_BAT0=65"
-		Efind2="#START_CHARGE_THRESH_BAT0=60"
-        Ereplace="STOP_CHARGE_THRESH_BAT0=65"
-		Ereplace2="START_CHARGE_THRESH_BAT0=60"
+			#--
+			# IMPORTANT: powerLimit uses value of $Endis pre-overwrite.
+			# This issue was cheaply solved by inversing the overwrite values.
+			# When enabling, it will write disabled; but still output "enabled"
+			# ex. Edit conf file > Set $Smartcharge true > Write $Endis "disabled" 
+			#--
+			#Text value that says what powerLimit was toggled to
+			Endis="disabled"
+
+			#Enable smart charging
+			Efind="#STOP_CHARGE_THRESH_BAT0=65"
+			Efind2="#START_CHARGE_THRESH_BAT0=60"
+   			Ereplace="STOP_CHARGE_THRESH_BAT0=65"
+			Ereplace2="START_CHARGE_THRESH_BAT0=60"
 			
-		#Disable smart charging
-		Dfind="STOP_CHARGE_THRESH_BAT0=65"
-		Dfind2="START_CHARGE_THRESH_BAT0=60"
-        Dreplace="#STOP_CHARGE_THRESH_BAT0=65"
-		Dreplace2="#START_CHARGE_THRESH_BAT0=60"
-		
-		if [ $SmartCharge=true ]; then
-				#Disable it
-				Endis="Disabled"
-				sudo sed -i 's/$Efind/$Ereplace/g' /etc/tlp.conf
-				sudo sed -i 's/$Efind2/$Ereplace2/g' /etc/tlp.conf
-				$SmartCharge=false;
+			#Disable smart charging
+			Dfind="STOP_CHARGE_THRESH_BAT0=65"
+			Dfind2="START_CHARGE_THRESH_BAT0=60"
+   	    	Dreplace="#STOP_CHARGE_THRESH_BAT0=65"
+			Dreplace2="#START_CHARGE_THRESH_BAT0=60"
 
-		elif [ $SmartCharge=false ]; then
-				#Enable it
-				Endis="Enabled"
-				sudo sed -i 's/$Dfind/$Dreplace/g' /etc/tlp.config
-				sudo sed -i 's/$Dfind2/$Dreplace2/g' /etc/tlp.config
-				$SmartCharge=true;
+			if $SmartCharge; then
+				#It's on, so disable it
+				
+				#Comment it out
+				sudo sed -e "/$Dfind/ s/^#*/#/" -i /etc/tlp.conf
+				sudo sed -e "/$Dfind2/ s/^#*/#/" -i /etc/tlp.conf
+				
+				#Set $SmartCharge=false;
+				sudo sed -i "41 s/true/false/g" /usr/share/undertaker/mods/general/setVar.sh
+				
+				#Set $Endis to enabled (For next script use.. read line 43)
+				sudo sed -i "50 s/disabled/enabled/g" /usr/share/undertaker/mods/general/setVar.sh	
+				
+				#Disable tlp in systemctl
+				sudo systemctl disable --now tlp
 
-		else
-			echo "An error has occured."
-			echo "Inspecting the code is recommended."
-		fi
-            echo "-----------"
-            echo "Smart Charging has been $Endis."
+				# The following commands can be uncommented to help debug
+				#Print what $Endis is set to
+				#sudo sed -n '50p;' /usr/share/undertaker/mods/general/setVar.sh
+				#Check conf file to see if the settings are commented or not
+				#cat /etc/tlp.conf | grep -i "THRESH_BAT0"
+
+			elif ! $SmartCharge; then
+				#It's off, so enable it
+				
+				#Uncomment it
+				sudo sed -i "535 s/$Efind/$Ereplace/g" /etc/tlp.conf
+				sudo sed -i "533 s/$Efind2/$Ereplace2/g" /etc/tlp.conf
+				
+				#Set $SmartCharge=true;
+				sudo sed -i "41 s/false/true/g" /usr/share/undertaker/mods/general/setVar.sh
+
+				#Set $Endis to disabled (For next script use.. read line 43)
+				sudo sed -i "50 s/enabled/disabled/g" /usr/share/undertaker/mods/general/setVar.sh
+
+				# Enable tlp in systemctl
+				sudo systemctl enable --now tlp
+
+				# The following commands can be uncommented to help debug
+				#Print what $Endis is set to
+				#sudo sed -n '50p;' /usr/share/undertaker/mods/general/setVar.sh
+				#Check conf file to see if the settings are commented or not
+				#cat /etc/tlp.conf | grep -i "THRESH_BAT0"
+			
+			else
+
+				echo "An error occured."
+				echo "Checking the code is advised."
+
+			fi
+
+			echo "-----------"
+   	    	echo "Smart Charging has been $Endis."
 			echo "Exiting setVar..."
             
 			exit 0
@@ -105,8 +147,8 @@ Excecute(){
 }
 
 
-
-taskPicker
 #this uses the Excecute function to do a certain task
-#Excecute "$task_number"
+taskPicker
+
+
 exit 0

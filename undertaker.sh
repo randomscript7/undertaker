@@ -1,7 +1,11 @@
 #!/bin/bash
 
+#config var bank
+waitTime=1
+
 # Opens menu to introduce script
 Header () {
+	clear
 	here=$(pwd)
 	cd /usr/share/undertaker
 	./header.sh
@@ -45,19 +49,16 @@ Excecute(){
 			;;
 
 		P1)
-
 			/usr/share/undertaker/mods/pentest/hashcracker.sh
 			exit 0
 			;;
 
 		P2)
-
 			/usr/share/undertaker/mods/pentest/hashmaker.sh
 			exit 0
 			;;
 
 		P3)
-
 			/usr/share/undertaker/mods/pentest/netCrack.sh
 			exit 0
 			;;
@@ -75,7 +76,7 @@ Excecute(){
 			echo "----------"
 			read -p "Enter your search terms: " searchTerm
 			echo "Searching moduleList.txt for scripts containing the term '$searchTerm'..."
-			sleep 0.5
+			sleep 
 			echo "Results found:"
 			echo "----------"
 			grep "$searchTerm" -i -s --colour red /usr/share/undertaker/docs/moduleList.txt
@@ -85,23 +86,21 @@ Excecute(){
 		setup)
 			if ! test -f /usr/share/undertaker/undertaker; then
 				
-				clear
 				Header
 				echo "undertaker has already been set up, or reconfigured in a way that cannot be reverted by the undertaker setup utiliy."
 				echo "If you require an automatic setup, remove the old files manually and reclone the repository."
 				echo "This can be achieved through the following command: "
 				echo "----------"
-				echo "git clone https://github.com/randomscript7/undertaker.sh /usr/share"
+				echo "git clone https://github.com/randomscript7/undertaker /usr/share"
 				echo "----------"
 				echo "And it will be set up anew by running [undertaker.sh setup] again."
 				exit 1
 
 			else
 	
-				clear
 				Header
 				echo "Entering undertaker setup..."
-				sleep 0.5
+				sleep 
 				echo "If you're here, you just cloned the undertaker github repository."
 				echo "You can CTRL-C to exit this if it was on accident."
 				echo "If not, your newly cloned repository will be cleaned up for you."
@@ -113,7 +112,7 @@ Excecute(){
 				echo "----------"
 				echo "Cleaning up the undertaker directory..."
 				sudo mv /usr/share/undertaker/undertaker/* /usr/share/undertaker
-				sudo rm /usr/share/undertaker/undertaker
+				sudo rmdir /usr/share/undertaker/undertaker
 				echo "Done."
 				echo "----------"
 				echo "The setup process has finished."
@@ -121,6 +120,29 @@ Excecute(){
 	
 			fi
 			;;
+
+		config)
+			# Like a mini setVar.sh but for undertaker.sh
+			Header
+			echo "The following settings can be changed: "
+			echo "waitTime - Time the undertaker.sh header is shown before starting a module"
+			echo ""
+			read -p "Enter the setting you would like to change: " setting
+
+			if [ "$setting" = "waitTime" ]; then
+
+				echo "waitTime is currently set to: "
+				sudo sed -n '4p;' /bin/undertaker.sh
+				echo "You may change it to any numerical value (No decimals)"
+				#echo "waitTime is currently set to $waitTime."
+				read -p "Enter your desired value to set: " newSet
+				sudo sed -i "4 s/waitTime=[0-9]/waitTime=$newSet/" /bin/undertaker.sh
+				sudo sed -i "147 s/waitTime=[0-9]/waitTime=$newSet/" /bin/undertaker.sh
+			fi
+
+			exit 0
+			;;
+
 		*)
 			echo "----------"
 			echo "That isn't a valid module. If it exists, check to make sure it's downloaded in the /undertaker directory and that it's included in the undertaker.sh file."
@@ -149,9 +171,10 @@ if [ "$#" -eq 0 ]; then
 	taskPicker
 else
 	# If this script was invoked with a module code, go to that module directly
+	Header
 	echo "Argument detected."
 	echo "Fast-tracking to module marked as '$1'..."
-	sleep 0.5
+	sleep $waitTime
 	Excecute "$1"
 fi
 

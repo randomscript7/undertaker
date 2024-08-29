@@ -1,8 +1,7 @@
 #!/bin/bash
-clear
-cat /usr/share/undertaker/logo.txt
+
+#Update and upgrade packages, then remove unnecessary ones. Nice and simple.
 echo ""
-echo "Running undertaker - UpdateProcedure"
 echo "------------------------------------"
 echo "Starting update procedure."
 echo "Updating applicable packages..."
@@ -20,6 +19,11 @@ echo "----------------------"
 sudo apt autoremove -y
 echo "----------------------"
 echo "Old packages removed."
+echo "Upgrading any unupgraded packages...."
+echo "----------------------"
+sudo apt upgrade --fix-missing
+echo "----------------------"
+echo "Any missed packages were upgraded."
 echo "Upgrade process complete."
 echo "----------------------"
 echo "The update process has finsihed successfully."
