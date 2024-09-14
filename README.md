@@ -3,14 +3,14 @@
 ### A multi-script networking tool written by randomscript7
 --------------------------------------------------------------
 
-_**undertaker is actively under development. More changes to both the initial networking script and modules are underway. More modules are also being actively created. This process will simplify over time as the project matures. Greater repository changes are certain to occur over time. **_
+_**undertaker is a project being developed to learn Bash. More changes to both the initial networking script and modules are underway. More modules are also being actively created. This process will simplify over time as the project matures. Greater repository changes are certain to occur over time. **_
 
 ### DEVEOPMENT ROADMAP:
 undertaker is always under development. However, it is still in its initial work stage. The modules are *not* supposed to be included within the same repo as the main undertaker.sh script. Likewise, the modules currently included are largely unfinished and not as customizable as intended. The project as a whole is also not as scalable as desired. While there is a plan to greatly increase scalability, it likley will not be implemented for several months at least. Here we will list the current plans for the project, and their priorities.
 
 - Current tasks:
     - Organize files to streamline repo cloning and setup
-    - Rework 'undertaker' header function on modules to promote their independence
+    - Rework 'undertaker' header function on modules to promote independence
 - Next steps:
     - Finish netCrack.sh
     - Write wordlist mode on hashcracker.sh
