@@ -1,0 +1,12 @@
+hashcracker - question based hash-cracking that determines settings needed to effectivley crack a specifies hash and/or file. This utilizes hashcat as a dependency.
+-----------
+latest - Debian systems should have their packages updated regularly. This task will update/upgrade all packages non-intrusivley.
+-----------
+hashmaker - Create a hash of a string. Valid algorithms are MD5, SHA1, SHA-256, and SHA-512.
+----------
+shelf - Create a backup of files/directories you provide.
+-----------
+setVar - Sublevel of undertaker to toggle common settings like Smart Charging.
+-----------
+netCrack -  This will set up a wlan1 interface to monitor nearby networks. It uses the Aircrack suite and reaver as a dependency.
+-----------
