@@ -2,14 +2,13 @@
 
 Header () {
 here=$(pwd)
-cd /usr/share/undertaker
+cd /usr/share/undertaker/docs
 ./header.sh
 cd $here
 }
 
 Header
 echo ""
-echo "-----------"
 echo "Welcome to setVar."
 echo "This tool is a kind of undertaker copy in fuction."
 echo "Commonly changed settings that require file editing can be done so faster here."
@@ -77,7 +76,7 @@ Excecute(){
 				#Disable tlp in systemctl
 				sudo systemctl disable --now tlp
 
-				# The following commands can be uncommented to help debug
+				#Uncomment to debug
 				#Print what $Endis is set to
 				#sudo sed -n '50p;' /usr/share/undertaker/mods/general/setVar.sh
 				#Check conf file to see if the settings are commented or not
