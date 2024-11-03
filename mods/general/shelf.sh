@@ -22,17 +22,17 @@ if [ "$op" == "backup" ]; then
     if [ "$yesno" == "y" ]; then
         echo "Creating backup folder..."
         date=$(date +"%Y-%m-%d")
-        mkdir /home/scriptmonkey/backups/$date
-        mkdir /home/scriptmonkey/backups/$date/raw
+        mkdir ~/backups/$date
+        mkdir ~/backups/$date/raw
         echo "-----------------------------"
         echo "Copying files..."
-        sudo cp -r  /usr/share/undertaker/ /home/scriptmonkey/backups/$date/raw
-        sudo cp /home/scriptmonkey/Desktop/notes.txt /home/scriptmonkey/backups/$date/raw
+        sudo cp -r  /usr/share/undertaker/ ~/backups/$date/raw
+        sudo cp ~/Desktop/notes.txt ~/backups/$date/raw
         echo "-----------------------------"
         echo Creating archive via tar...
-        cd /home/scriptmonkey/backups/$date
-        tar -czf $date.tar.gz /home/scriptmonkey/backups/$date/raw
-        cd /home/scriptmonkey
+        cd ~/backups/$date
+        tar -czf $date.tar.gz ~/backups/$date/raw
+        cd ~
         echo "-----------------------------"
         echo "Files copied successfully."
         echo "Backup for $date has been created."
@@ -40,18 +40,18 @@ if [ "$op" == "backup" ]; then
     elif [ "$yesno" == "n" ]; then
         echo "Creating backup folder..."
         date=$(date +"%Y-%m-%d")
-        mkdir /home/scriptmonkey/backups/$date
-        mkdir /home/scriptmonkey/backups/$date/raw
+        mkdir ~/backups/$date
+        mkdir ~/backups/$date/raw
         echo "-----------------------------"
         echo "Copying files..."
-        sudo cp -r  /usr/share/undertaker/ /home/scriptmonkey/backups/$date/raw
-        sudo cp /home/scriptmonkey/Desktop/notes.txt /home/scriptmonkey/backups/$date/raw
+        sudo cp -r  /usr/share/undertaker/ ~/backups/$date/raw
+        sudo cp ~/Desktop/notes.txt ~/backups/$date/raw
         echo "-----------------------------"
         echo Creating archive via tar...
-        cd /home/scriptmonkey/backups/$date
-        tar -czf $date.tar.gz /home/scriptmonkey/backups/$date/raw
-        rmdir -rf /home/scriptmonkey/backups/$date/raw
-        cd /home/scriptmonkey
+        cd ~/backups/$date
+        tar -czf $date.tar.gz ~/backups/$date/raw
+        rmdir -rf ~/backups/$date/raw
+        cd ~
         echo "-----------------------------"
         echo "Files copied successfully."
         echo "Backup for $date has been created."
@@ -64,17 +64,17 @@ if [ "$op" == "backup" ]; then
 elif [ "$op" == "extract" ]; then
     
     echo "The backups for the following dates were found."
-    ls /home/scriptmonkey/backups
+    ls ~/backups
     echo "-----------------------------"
     read -p "Select one to extract: " extractable
     cd /usr/share/undertaker/misc
     echo "Extracting backup on $extractable..."
     echo "-----------------------------"
-    tar -xzf home/scriptmonkey/backups/$extractable.tar.gz
+    tar -xzf ~/backups/$extractable.tar.gz
     echo "Restoring files..."
     echo "-----------------------------"
     cp -f /usr/share/undertaker/misc/undertaker /usr/share/undertaker
-    cp -f /usr/share/undertaker/misc/notes.txt /home/scriptmonkey/Desktop
+    cp -f /usr/share/undertaker/misc/notes.txt ~/Desktop
     rm -r /usr/share/undertaker/misc
     echo "Files restored."
 
