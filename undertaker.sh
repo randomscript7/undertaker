@@ -6,10 +6,15 @@ waitTime=1
 # Opens menu to introduce script
 Header () {
 	clear
-	here=$(pwd)
-	cd /usr/share/undertaker
-	./header.sh
-	cd $here
+	echo -e "----------------------------------------------------"
+	echo -e "                 _           _        _             "
+	echo -e " _   _ _ __   __| | ___ _ __| |_ __ _| | _____ _ __ "
+	echo -e "| | | | '_ \ / _\` |/ _ \ '__| __/ _\` | |/ / _ \ '__|"
+	echo -e "| |_| | | | | (_| |  __/ |  | || (_| |   <  __/ |   "
+	echo -e" \__,_|_| |_|\__,_|\___|_|   \__\__,_|_|\_\___|_|    "
+	echo -e "----------------------------------------------------"
+	echo -e "A script networking tool written by randomscript7   "
+	echo -e "----------------------------------------------------"
 }
 
 # Function that asks what script the user wants to run, and runs it
@@ -33,32 +38,32 @@ Excecute(){
 	local task_number=$1
 	case $task_number in
 
-		G1)
-			/usr/share/undertaker/mods/general/UpdateProcedure.sh
+		latest)
+			/usr/share/undertaker/mods/general/latest.sh
 			exit 0
 			;;
 
-		G2)
+		setVar)
 			/usr/share/undertaker/mods/general/setVar.sh
 			exit 0
 			;;
 
-		G3)
-			/usr/share/undertaker/mods/general/backupProcedure.sh
+		shelf)
+			/usr/share/undertaker/mods/general/shelf.sh
 			exit 0
 			;;
 
-		P1)
+		hashcracker)
 			/usr/share/undertaker/mods/pentest/hashcracker.sh
 			exit 0
 			;;
 
-		P2)
+		hashmaker)
 			/usr/share/undertaker/mods/pentest/hashmaker.sh
 			exit 0
 			;;
 
-		P3)
+		netCrack)
 			/usr/share/undertaker/mods/pentest/netCrack.sh
 			exit 0
 			;;
@@ -68,7 +73,7 @@ Excecute(){
 			echo "Due to the magnitude of undertaker, there may be several problems. These problems must be identified in order to be fixed easier."
 			echo "Anywhere an error could commonly occur, an error code will be returned. These error codes are as follows:"
 			echo "Error code 1 - invalid input"
-			#I'll add error codes as I finish stuff
+			#Proper error codes will be added eventually
 			exit 0
 			;;
 
@@ -84,6 +89,7 @@ Excecute(){
 			;;
 
 		setup)
+			#If there isn't a nested undertaker directory, it's already been set up
 			if ! test -f /usr/share/undertaker/undertaker; then
 				
 				Header
@@ -115,6 +121,11 @@ Excecute(){
 				sudo rmdir /usr/share/undertaker/undertaker
 				echo "Done."
 				echo "----------"
+				echo "Sorting the license and readme files..."
+				sudo mv /usr/share/undertaker/README.md /usr/share/undertaker/docs 
+				sudo mv /usr/share/undertaker/LICENSE.md /usr/share/undertaker/docs
+				echo "Done."
+				echo "----------"
 				echo "The setup process has finished."
 				exit 0
 	
@@ -122,7 +133,7 @@ Excecute(){
 			;;
 
 		config)
-			# Like a mini setVar.sh but for undertaker.sh
+			# Integrated setVar.sh for undertaker.sh
 			Header
 			echo "The following settings can be changed: "
 			echo "waitTime - Time the undertaker.sh header is shown before starting a module"
@@ -143,6 +154,25 @@ Excecute(){
 			exit 0
 			;;
 
+		add)
+			#Runs guided process to integrate script with undertaker
+			Header
+			echo "Entering the undertaker.sh module integration process..."
+			echo "----------"
+			sleep 0.5
+			read -p "Enter the filepath to your script: " newScript
+			echo "undertaker requires documentation for its modules."
+			echo "Because this script will only be added locally, that is not required, but is still reccommended."
+			read -p "Do you want to add additional documentation for your script? (y/n): " docsYN
+			if [ "$docsYN" == "n" ]; then
+				
+				exit 0
+			fi
+			echo "If you "
+			echo ""
+			exit 0
+			;;
+
 		*)
 			echo "----------"
 			echo "That isn't a valid module. If it exists, check to make sure it's downloaded in the /undertaker directory and that it's included in the undertaker.sh file."
@@ -156,7 +186,7 @@ Excecute(){
 
 # Detect whether the script was executed with an argument or not
 if [ "$#" -eq 0 ]; then	
-	# Nothing. We just open the menu like usual :D
+	# Nothing. The wizard-type menu opens like usual
 
 	Header
 	echo ""
