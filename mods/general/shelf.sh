@@ -1,10 +1,17 @@
 #!/bin/bash
 
+# Opens menu to introduce script
 Header () {
-here=$(pwd)
-cd /usr/share/undertaker/docs
-./header.sh
-cd $here
+	clear
+	echo -e "----------------------------------------------------"
+	echo -e "                 _           _        _             "
+	echo -e " _   _ _ __   __| | ___ _ __| |_ __ _| | _____ _ __ "
+	echo -e "| | | | '_ \ / _\` |/ _ \ '__| __/ _\` | |/ / _ \ '__|"
+	echo -e "| |_| | | | | (_| |  __/ |  | || (_| |   <  __/ |   "
+	echo -e " \__,_|_| |_|\__,_|\___|_|   \__\__,_|_|\_\___|_|   "
+	echo -e "----------------------------------------------------"
+	echo -e "A script networking tool written by randomscript7   "
+	echo -e "----------------------------------------------------"
 }
 
 #This is a script that backs up/extracts the undertaker directory and notes file.
