@@ -11,7 +11,7 @@ Header () {
 	echo -e " _   _ _ __   __| | ___ _ __| |_ __ _| | _____ _ __ "
 	echo -e "| | | | '_ \ / _\` |/ _ \ '__| __/ _\` | |/ / _ \ '__|"
 	echo -e "| |_| | | | | (_| |  __/ |  | || (_| |   <  __/ |   "
-	echo -e" \__,_|_| |_|\__,_|\___|_|   \__\__,_|_|\_\___|_|    "
+	echo -e " \__,_|_| |_|\__,_|\___|_|   \__\__,_|_|\_\___|_|   "
 	echo -e "----------------------------------------------------"
 	echo -e "A script networking tool written by randomscript7   "
 	echo -e "----------------------------------------------------"
@@ -90,11 +90,7 @@ Excecute(){
 				Header
 				echo "undertaker has already been set up, or reconfigured in a way that cannot be reverted by the undertaker setup utiliy."
 				echo "If you require an automatic setup, remove the old files manually and reclone the repository."
-				echo "This can be achieved through the following command: "
-				echo "----------"
-				echo "git clone https://github.com/randomscript7/undertaker /usr/share"
-				echo "----------"
-				echo "And it will be set up anew by running [undertaker.sh setup] again."
+				echo "For instructions on how to do a fresh undertaker install, check the README. "
 				exit 1
 
 			else
