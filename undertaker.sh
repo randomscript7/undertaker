@@ -63,11 +63,6 @@ Excecute(){
 			exit 0
 			;;
 
-		netCrack)
-			/usr/share/undertaker/mods/pentest/netCrack.sh
-			exit 0
-			;;
-
 		404)
 			echo "-----------"
 			echo "Due to the magnitude of undertaker, there may be several problems. These problems must be identified in order to be fixed easier."
@@ -116,14 +111,19 @@ Excecute(){
 				sudo mv /usr/share/undertaker/undertaker.sh /bin
 				echo "Done."
 				echo "----------"
-				echo "Cleaning up the undertaker directory..."
-				sudo mv /usr/share/undertaker/undertaker/* /usr/share/undertaker
-				sudo rmdir /usr/share/undertaker/undertaker
-				echo "Done."
-				echo "----------"
-				echo "Sorting the license and readme files..."
-				sudo mv /usr/share/undertaker/README.md /usr/share/undertaker/docs 
-				sudo mv /usr/share/undertaker/LICENSE.md /usr/share/undertaker/docs
+				#echo "Cleaning up the undertaker directory..."
+				#sudo mv /usr/share/undertaker/undertaker/* /usr/share/undertaker
+				#sudo rmdir /usr/share/undertaker/undertaker
+				#echo "Done."
+				#echo "----------"
+				#echo "Sorting the license and readme files..."
+				#sudo mv /usr/share/undertaker/README.md /usr/share/undertaker/docs 
+				#sudo mv /usr/share/undertaker/LICENSE.md /usr/share/undertaker/docs
+				#echo "Done."
+				#echo "----------"
+				echo "Giving modules executable permissions..."
+				sudo chmod +x /usr/share/undertaker/mods/general/*
+				sudo chmod +x /usr/share/undertaker/mods/pentest/*
 				echo "Done."
 				echo "----------"
 				echo "The setup process has finished."
