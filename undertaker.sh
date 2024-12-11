@@ -84,8 +84,8 @@ Excecute(){
 			;;
 
 		setup)
-			#If the undertaker.sh script isn't there, it's already been set up
-			if ! test -f /usr/share/undertaker/docs/.ready; then
+			#If ready.txt file is missing, it's already been set up
+			if ! test -f /usr/share/undertaker/docs/ready.txt; then
 				
 				Header
 				echo "undertaker has already been set up, or reconfigured in a way that cannot be reverted by the undertaker setup utiliy."
@@ -95,6 +95,7 @@ Excecute(){
 
 			else
 	
+				#Complete setup tasks, then delete ready.txt
 				Header
 				echo "Entering undertaker setup..."
 				sleep 
@@ -109,7 +110,7 @@ Excecute(){
 				echo "Done."
 				echo "----------"
 				echo "The setup process has finished."
-				echo "This file means that the undertaker.sh setup script has been run already. Disregard it." > /usr/share/undertaker/docs/.ready.txt
+				sudo rm /usr/share/undertaker/docs/ready.txt
 				exit 0
 	
 			fi
