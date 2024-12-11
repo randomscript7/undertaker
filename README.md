@@ -11,9 +11,11 @@ EXECUTING A MODULE: To execute a module, simply run undertaker.sh in your termin
 
 INSTALLATION: undertaker.sh is currently only functional in Debian flavours of Linux. You will need to use the following commands to clone the repository via git and allow the program to execute:
 ```
+cd /usr/share
 git clone https://github.com/randomscript7/undertaker
-sudo mv /usr/share/undertaker/undertaker.sh /bin
-sudo chmod +x /bin/undertaker.sh
+cd undertaker
+sudo chmod +x /undertaker.sh
+sudo mv undertaker.sh /bin
 ```
 Then run the integrated setup script:
 ```
