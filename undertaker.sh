@@ -85,7 +85,7 @@ Excecute(){
 
 		setup)
 			#If the undertaker.sh script isn't there, it's already been set up
-			if ! test -f /usr/share/undertaker/undertaker.sh; then
+			if ! test -f /usr/share/undertaker/docs/.ready; then
 				
 				Header
 				echo "undertaker has already been set up, or reconfigured in a way that cannot be reverted by the undertaker setup utiliy."
@@ -103,28 +103,13 @@ Excecute(){
 				echo "If not, your newly cloned repository will be cleaned up for you."
 				sleep 1
 				echo "----------"
-				echo "Relocating the main undertaker file to bin..."
-				sudo mv /usr/share/undertaker/undertaker.sh /bin
-				echo "Giving it executable permissions..."
-				sudo chmod +x /bin/undertaker.sh
-				echo "Done."
-				echo "----------"
-				#echo "Cleaning up the undertaker directory..."
-				#sudo mv /usr/share/undertaker/undertaker/* /usr/share/undertaker
-				#sudo rmdir /usr/share/undertaker/undertaker
-				#echo "Done."
-				#echo "----------"
-				#echo "Sorting the license and readme files..."
-				#sudo mv /usr/share/undertaker/README.md /usr/share/undertaker/docs 
-				#sudo mv /usr/share/undertaker/LICENSE.md /usr/share/undertaker/docs
-				#echo "Done."
-				#echo "----------"
 				echo "Giving modules executable permissions..."
 				sudo chmod +x /usr/share/undertaker/mods/general/*
 				sudo chmod +x /usr/share/undertaker/mods/pentest/*
 				echo "Done."
 				echo "----------"
 				echo "The setup process has finished."
+				echo "This file means that the undertaker.sh setup script has been run already. Disregard it." > /usr/share/undertaker/docs/.ready.txt
 				exit 0
 	
 			fi
@@ -132,6 +117,7 @@ Excecute(){
 
 		config)
 			# Integrated setVar.sh for undertaker.sh
+			#Useless for now, may be expanded later on
 			Header
 			echo "The following settings can be changed: "
 			echo "waitTime - Time the undertaker.sh header is shown before starting a module"
@@ -154,6 +140,7 @@ Excecute(){
 
 		add)
 			#Runs guided process to integrate script with undertaker
+			#In progress
 			Header
 			echo "Entering the undertaker.sh module integration process..."
 			echo "----------"
