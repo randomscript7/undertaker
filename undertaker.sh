@@ -84,8 +84,8 @@ Excecute(){
 			;;
 
 		setup)
-			#If there isn't a nested undertaker directory, it's already been set up
-			if ! test -f /usr/share/undertaker/undertaker; then
+			#If the undertaker.sh script isn't there, it's already been set up
+			if ! test -f /usr/share/undertaker/undertaker.sh; then
 				
 				Header
 				echo "undertaker has already been set up, or reconfigured in a way that cannot be reverted by the undertaker setup utiliy."
