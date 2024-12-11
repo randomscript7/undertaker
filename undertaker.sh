@@ -109,6 +109,8 @@ Excecute(){
 				echo "----------"
 				echo "Relocating the main undertaker file to bin..."
 				sudo mv /usr/share/undertaker/undertaker.sh /bin
+				echo "Giving it executable permissions..."
+				sudo chmod +x /bin/undertaker.sh
 				echo "Done."
 				echo "----------"
 				#echo "Cleaning up the undertaker directory..."
