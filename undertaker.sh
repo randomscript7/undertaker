@@ -139,30 +139,30 @@ Excecute(){
 			exit 0
 			;;
 
-		  <<Comment-block -- Comment out unfinished submodule --
+		#-- Comment out unfinished submodule --
 		
-		add)
-			#Runs guided process to integrate script with undertaker
-			#In progress
-			
-			Header
-			echo "Entering the undertaker.sh module integration process..."
-			echo "----------"
-			sleep 0.5
-			read -p "Enter the filepath to your script: " newScript
-			echo "undertaker requires documentation for its modules."
-			echo "Because this script will only be added locally, that is not required, but is still reccommended."
-			read -p "Do you want to add additional documentation for your script? (y/n): " docsYN
-			if [ "$docsYN" == "n" ]; then
-				
-				exit 0
-			fi
-			echo "If you "
-			echo ""
-			exit 0
-			;;
-
-			Comment-block
+		#add)
+		#	#Runs guided process to integrate script with undertaker
+		#	#In progress
+		#	
+		#	Header
+		#	echo "Entering the undertaker.sh module integration process..."
+		#	echo "----------"
+		#	sleep 0.5
+		#	read -p "Enter the filepath to your script: " newScript
+		#	echo "undertaker requires documentation for its modules."
+		#	echo "Because this script will only be added locally, that is not required, but is still reccommended."
+		#	read -p "Do you want to add additional documentation for your script? (y/n): " docsYN
+		#	if [ "$docsYN" == "n" ]; then
+		#		
+		#		exit 0
+		#	fi
+		#	echo "If you "
+		#	echo ""
+		#	exit 0
+		#	;;
+		#
+		# -- Comment out unfinished submodule --
 
 		*)
 			echo "----------"
