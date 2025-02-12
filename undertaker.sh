@@ -102,7 +102,7 @@ Excecute(){
 				echo "If you're here, you just cloned the undertaker github repository."
 				echo "You can CTRL-C to exit this if it was on accident."
 				echo "If not, your newly cloned repository will be cleaned up for you."
-				sleep 1
+				sleep 1; # I never used to need these semicolos, but now I do apparently
 				echo "----------"
 				echo "Giving modules executable permissions..."
 				sudo chmod +x /usr/share/undertaker/mods/general/*
