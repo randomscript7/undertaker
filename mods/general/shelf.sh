@@ -20,47 +20,49 @@ Header
 echo ""
 echo "Running shelf..."
 echo "-----------------------------"
-read -p "Would you like to backup your selected files or extract a backup? (backup/extract): " op
+read -p "Would you like to backup your selected files or extract a backup? (backup/extract): " operation
 
-if [ "$op" == "backup" ]; then 
+if [ "$operation" == "backup" ]; then 
 
-    read -p "Would you like to include uncompressed files in your backup? (y/n): " yesno
+    read -p "Would you like to include uncompressed files in your backup? (y/n): " uncompressedyn
     
-    if [ "$yesno" == "y" ]; then
+    if [ "$uncompressedyn" == "y" ]; then
+
         echo "Creating backup folder..."
-        date=$(date +"%Y-%m-%d")
-        mkdir ~/backups/$date
-        mkdir ~/backups/$date/raw
+        date=$(date +"%Y-%m-%d") # Date variable for naming the backup folder
+        mkdir ~/backups/$date # Create base backup folder
+        mkdir ~/backups/$date/raw # Create raw folder for uncompressed files
         echo "-----------------------------"
         echo "Copying files..."
-        sudo cp -r  /usr/share/undertaker/ ~/backups/$date/raw
-        sudo cp ~/Desktop/notes.txt ~/backups/$date/raw
+        sudo cp -r  /usr/share/undertaker/ ~/backups/$date/raw #Copy undertaker content to raw folder
+        sudo cp ~/Desktop/notes.txt ~/backups/$date/raw # Copy notes file to raw folder
         echo "-----------------------------"
         echo Creating archive via tar...
-        cd ~/backups/$date
-        tar -czf $date.tar.gz ~/backups/$date/raw
+        cd ~/backups/$date # Go to base backup directory
+        tar -czf $date.tar.gz ~/backups/$date/raw # Create a tarball of the raw folder INSIDE base backup folder
         cd ~
         echo "-----------------------------"
-        echo "Files copied successfully."
+        echo "Files copied successfully." # Backup left compressed in ~/backups, raw files included
         echo "Backup for $date has been created."
     
-    elif [ "$yesno" == "n" ]; then
+    elif [ "$uncompressedyn" == "n" ]; then
+
         echo "Creating backup folder..."
-        date=$(date +"%Y-%m-%d")
+        date=$(date +"%Y-%m-%d") # Date variable for naming the backup folder
         mkdir ~/backups/$date
         mkdir ~/backups/$date/raw
         echo "-----------------------------"
         echo "Copying files..."
-        sudo cp -r  /usr/share/undertaker/ ~/backups/$date/raw
-        sudo cp ~/Desktop/notes.txt ~/backups/$date/raw
+        sudo cp -r  /usr/share/undertaker/ ~/backups/$date/raw # Copy contents to raw folder
+        sudo cp ~/Desktop/notes.txt ~/backups/$date/raw # Copy notes file to raw folder
         echo "-----------------------------"
         echo Creating archive via tar...
-        cd ~/backups/$date
-        tar -czf $date.tar.gz ~/backups/$date/raw
-        rmdir -rf ~/backups/$date/raw
+        cd ~/backups/$date # Go to backup directory
+        tar -czf $date.tar ~/backups/$date/raw # Create a tarball of the raw folder INSIDE base backup folder
+        rmdir -rf ~/backups/$date/raw # Delete the raw folder
         cd ~
         echo "-----------------------------"
-        echo "Files copied successfully."
+        echo "Files copied successfully." # Backup left compressed in ~/backups, no raw failes
         echo "Backup for $date has been created."
 
     else
@@ -68,21 +70,23 @@ if [ "$op" == "backup" ]; then
         exit 1
     fi
 
-elif [ "$op" == "extract" ]; then
+elif [ "$operation" == "extract" ]; then
     
     echo "The backups for the following dates were found."
-    ls ~/backups
+    ls ~/backups # List backups
     echo "-----------------------------"
-    read -p "Select one to extract: " extractable
-    cd /usr/share/undertaker/misc
-    echo "Extracting backup on $extractable..."
+    read -p "Select one to extract: " extractable # User gives backup name
+    mkdir /tmp/ut-extract/ # Make temporary directory for extraction
+    cd /tmp/ut-extract # Go to temporary directory
+    echo "Extracting backup from $extractable..."
     echo "-----------------------------"
-    tar -xzf ~/backups/$extractable.tar.gz
+    tar -xzf ~/backups/$extractable/$extractable.tar # Extract the tarball
     echo "Restoring files..."
     echo "-----------------------------"
-    cp -f /usr/share/undertaker/misc/undertaker /usr/share/undertaker
-    cp -f /usr/share/undertaker/misc/notes.txt ~/Desktop
-    rm -r /usr/share/undertaker/misc
+    rm -r /usr/share/undertaker # Remove current undertaker directory
+    mv /tmp/ut-extract/undertaker/ /usr/share/undertaker # Move undertaker directory to /usr/share
+    cp -f /tmp/notes.txt ~/Desktop # Copy notes file to desktop
+    rm -r /tmp/ut-extract # Remove temporary directory
     echo "Files restored."
 
 else
@@ -91,5 +95,5 @@ else
     exit 1
 
 fi
-exit 0
 
+exit 0
