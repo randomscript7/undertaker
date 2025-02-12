@@ -67,7 +67,7 @@ Excecute(){
 			echo "-----------"
 			echo "Due to the magnitude of undertaker, there may be several problems. These problems must be identified in order to be fixed easier."
 			echo "Anywhere an error could commonly occur, an error code will be returned. These error codes are as follows:"
-			echo "Error code 1 - invalid input"
+			echo "[Error codes have not yet been implemented]"
 			#Proper error codes will be added eventually
 			exit 0
 			;;
@@ -117,7 +117,7 @@ Excecute(){
 			;;
 
 		config)
-			# Integrated setVar.sh for undertaker.sh
+			#Integrated setVar.sh for undertaker.sh
 			#Useless for now, may be expanded later on
 			Header
 			echo "The following settings can be changed: "
@@ -139,9 +139,11 @@ Excecute(){
 			exit 0
 			;;
 
+		: '
 		add)
 			#Runs guided process to integrate script with undertaker
 			#In progress
+			
 			Header
 			echo "Entering the undertaker.sh module integration process..."
 			echo "----------"
@@ -158,6 +160,8 @@ Excecute(){
 			echo ""
 			exit 0
 			;;
+
+			' :
 
 		*)
 			echo "----------"
