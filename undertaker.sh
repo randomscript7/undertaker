@@ -18,25 +18,25 @@ Header () {
 }
 
 # Function that asks what script the user wants to run, and runs it
-taskPicker(){
+modulePicker(){
 
     echo "You may now excecute the number according to an undertaker module."
 	echo "If you don't know which module you're looking for, you can search for one with the command < search >."
-	read -p "> " task_number
+	read -p "> " module_number
 	
 
 	if [ "$0" == "search" ]; then
 		grep "$1" /usr/share/undertaker/docs/moduleList.txt
 	else
-		Excecute "$task_number"
+		Excecute "$module_number"
 	fi
 
 }
 
-# Function that actually runs scripts
+# Function that actually runs scripts, takes module name as argument and runs it
 Excecute(){
-	local task_number=$1
-	case $task_number in
+	local module_number=$1
+	case $module_number in
 
 		latest)
 			/usr/share/undertaker/mods/general/latest.sh
@@ -76,7 +76,7 @@ Excecute(){
 			echo "----------"
 			read -p "Enter your search terms: " searchTerm
 			echo "Searching moduleList.txt for scripts containing the term '$searchTerm'..."
-			sleep 
+			sleep 1
 			echo "Results found:"
 			echo "----------"
 			grep "$searchTerm" -i -s --colour red /usr/share/undertaker/docs/moduleList.txt
@@ -180,7 +180,6 @@ if [ "$#" -eq 0 ]; then
 
 	Header
 	echo ""
-	echo "-----------"
 	echo "Welcome to the undertaker networking tool."
 	echo "This tool is a multipurpose virtual assistant, completley hardcoded to be fully customizable."
 	echo "It has little function of its own other than connecting 'modules' (scripts) to a centralized tool."
@@ -188,12 +187,13 @@ if [ "$#" -eq 0 ]; then
 	echo "-----------"
 	
 	#This prompts the user to pick a module, and executes it
-	taskPicker
+	modulePicker
 else
 	# If this script was invoked with a module code, go to that module directly
 	Header
 	echo "Argument detected."
 	echo "Fast-tracking to module marked as '$1'..."
+	echo ""
 	sleep $waitTime
 	Excecute "$1"
 fi
