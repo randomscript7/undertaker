@@ -139,7 +139,8 @@ Excecute(){
 			exit 0
 			;;
 
-		: '
+		  <<Comment-block -- Comment out unfinished submodule --
+		
 		add)
 			#Runs guided process to integrate script with undertaker
 			#In progress
@@ -161,7 +162,7 @@ Excecute(){
 			exit 0
 			;;
 
-			' :
+			Comment-block
 
 		*)
 			echo "----------"
