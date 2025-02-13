@@ -1,56 +1,65 @@
 #!/bin/bash
 
+#config var bank
+waitTime=1
+
+# Opens menu to introduce script
+Header () {
+	clear
+	echo -e "----------------------------------------------------"
+	echo -e "                 _           _        _             "
+	echo -e " _   _ _ __   __| | ___ _ __| |_ __ _| | _____ _ __ "
+	echo -e "| | | | '_ \ / _\` |/ _ \ '__| __/ _\` | |/ / _ \ '__|"
+	echo -e "| |_| | | | | (_| |  __/ |  | || (_| |   <  __/ |   "
+	echo -e " \__,_|_| |_|\__,_|\___|_|   \__\__,_|_|\_\___|_|   "
+	echo -e "----------------------------------------------------"
+	echo -e "A script networking tool written by randomscript7   "
+	echo -e "----------------------------------------------------"
+}
+
 # Function that asks what script the user wants to run, and runs it
-taskPicker(){
+modulePicker(){
 
     echo "You may now excecute the number according to an undertaker module."
 	echo "If you don't know which module you're looking for, you can search for one with the command < search >."
-	read -p "> " task_number
+	read -p "> " module_number
 	
 
 	if [ "$0" == "search" ]; then
 		grep "$1" /usr/share/undertaker/docs/moduleList.txt
 	else
-		Excecute "$task_number"
+		Excecute "$module_number"
 	fi
 
 }
 
-# Function that actually runs scripts
+# Function that actually runs scripts, takes module name as argument and runs it
 Excecute(){
-	local task_number=$1
-	case $task_number in
+	local module_number=$1
+	case $module_number in
 
-		T1)
-			/usr/share/undertaker/hashcracker.sh
+		latest)
+			/usr/share/undertaker/mods/general/latest.sh
 			exit 0
 			;;
 
-		T2)
-			/usr/share/undertaker/UpdateProcedure.sh
+		setVar)
+			/usr/share/undertaker/mods/general/setVar.sh
 			exit 0
 			;;
 
-		T3)
-			/usr/share/undertaker/hashmaker.sh
+		shelf)
+			/usr/share/undertaker/mods/general/shelf.sh
 			exit 0
 			;;
 
-		T4)
-
-			/usr/share/undertaker/backupProcedure.sh
+		hashcracker)
+			/usr/share/undertaker/mods/pentest/hashcracker.sh
 			exit 0
 			;;
 
-		T5)
-
-			/usr/share/undertaker/setVar.sh
-			exit 0
-			;;
-
-		A1)
-
-			/usr/share/undertaker/netCrack.sh
+		hashmaker)
+			/usr/share/undertaker/mods/pentest/hashmaker.sh
 			exit 0
 			;;
 
@@ -58,8 +67,8 @@ Excecute(){
 			echo "-----------"
 			echo "Due to the magnitude of undertaker, there may be several problems. These problems must be identified in order to be fixed easier."
 			echo "Anywhere an error could commonly occur, an error code will be returned. These error codes are as follows:"
-			echo "Error code 1 - invalid input"
-			#I'll add error codes as I finish stuff
+			echo "[Error codes have not yet been implemented]"
+			#Proper error codes will be added eventually
 			exit 0
 			;;
 
@@ -67,12 +76,93 @@ Excecute(){
 			echo "----------"
 			read -p "Enter your search terms: " searchTerm
 			echo "Searching moduleList.txt for scripts containing the term '$searchTerm'..."
-			sleep 0.5
+			sleep 1
 			echo "Results found:"
 			echo "----------"
 			grep "$searchTerm" -i -s --colour red /usr/share/undertaker/docs/moduleList.txt
 			exit 0
 			;;
+
+		setup)
+			#If ready.txt file is missing, it's already been set up
+			if ! test -f /usr/share/undertaker/docs/ready.txt; then
+				
+				Header
+				echo "undertaker has already been set up, or reconfigured in a way that cannot be reverted by the undertaker setup utiliy."
+				echo "If you require an automatic setup, remove the old files manually and reclone the repository."
+				echo "For instructions on how to do a fresh undertaker install, check the README. "
+				exit 1
+
+			else
+	
+				#Complete setup tasks, then delete ready.txt
+				Header
+				echo "Entering undertaker setup..."
+				sleep 
+				echo "If you're here, you just cloned the undertaker github repository."
+				echo "You can CTRL-C to exit this if it was on accident."
+				echo "If not, your newly cloned repository will be cleaned up for you."
+				sleep 1; # I never used to need these semicolos, but now I do apparently
+				echo "----------"
+				echo "Giving modules executable permissions..."
+				sudo chmod +x /usr/share/undertaker/mods/general/*
+				sudo chmod +x /usr/share/undertaker/mods/pentest/*
+				echo "Done."
+				echo "----------"
+				echo "The setup process has finished."
+				sudo rm /usr/share/undertaker/docs/ready.txt
+				exit 0
+	
+			fi
+			;;
+
+		config)
+			#Integrated setVar.sh for undertaker.sh
+			#Useless for now, may be expanded later on
+			Header
+			echo "The following settings can be changed: "
+			echo "waitTime - Time the undertaker.sh header is shown before starting a module"
+			echo ""
+			read -p "Enter the setting you would like to change: " setting
+
+			if [ "$setting" = "waitTime" ]; then
+
+				echo "waitTime is currently set to: "
+				sudo sed -n '4p;' /bin/undertaker.sh
+				echo "You may change it to any numerical value (No decimals)"
+				#echo "waitTime is currently set to $waitTime."
+				read -p "Enter your desired value to set: " newSet
+				sudo sed -i "4 s/waitTime=[0-9]/waitTime=$newSet/" /bin/undertaker.sh
+				sudo sed -i "147 s/waitTime=[0-9]/waitTime=$newSet/" /bin/undertaker.sh
+			fi
+
+			exit 0
+			;;
+
+		#-- Comment out unfinished submodule --
+		
+		#add)
+		#	#Runs guided process to integrate script with undertaker
+		#	#In progress
+		#	
+		#	Header
+		#	echo "Entering the undertaker.sh module integration process..."
+		#	echo "----------"
+		#	sleep 0.5
+		#	read -p "Enter the filepath to your script: " newScript
+		#	echo "undertaker requires documentation for its modules."
+		#	echo "Because this script will only be added locally, that is not required, but is still reccommended."
+		#	read -p "Do you want to add additional documentation for your script? (y/n): " docsYN
+		#	if [ "$docsYN" == "n" ]; then
+		#		
+		#		exit 0
+		#	fi
+		#	echo "If you "
+		#	echo ""
+		#	exit 0
+		#	;;
+		#
+		# -- Comment out unfinished submodule --
 
 		*)
 			echo "----------"
@@ -87,18 +177,10 @@ Excecute(){
 
 # Detect whether the script was executed with an argument or not
 if [ "$#" -eq 0 ]; then	
-	# Nothing. We just open the menu like usual :D
-	# Open menu to introduce script
-	Header () {
-		here=$(pwd)
-		cd /usr/share/undertaker
-		./header.sh
-		cd $here
-	}
+	# Nothing. The wizard-type menu opens like usual
 
 	Header
 	echo ""
-	echo "-----------"
 	echo "Welcome to the undertaker networking tool."
 	echo "This tool is a multipurpose virtual assistant, completley hardcoded to be fully customizable."
 	echo "It has little function of its own other than connecting 'modules' (scripts) to a centralized tool."
@@ -106,12 +188,14 @@ if [ "$#" -eq 0 ]; then
 	echo "-----------"
 	
 	#This prompts the user to pick a module, and executes it
-	taskPicker
+	modulePicker
 else
 	# If this script was invoked with a module code, go to that module directly
+	Header
 	echo "Argument detected."
-	echo "Fast-tracking to module marked as $1..."
-	sleep 0.5
+	echo "Fast-tracking to module marked as '$1'..."
+	echo ""
+	sleep $waitTime
 	Excecute "$1"
 fi
 

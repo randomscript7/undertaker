@@ -1,9 +1,9 @@
 # undertaker
 
-### A multi-script networking tool written by randomscript7
+A bundle of scripts written and networked by randomscript7
 --------------------------------------------------------------
 
-_**undertaker is a project being developed to learn Bash. More changes to both the initial networking script and modules are underway. More modules are also being actively created. This process will simplify over time as the project matures. Greater repository changes are certain to occur over time. **_
+_**undertaker is still in very early development. Many features are missing for proper release, among other things. If you'd like to contribute to undertaker, open an issue with your contribution. New modules are especially welcome!**_
 
 ### DEVEOPMENT ROADMAP:
 undertaker is always under development. However, it is still in its initial work stage. The modules are *not* supposed to be included within the same repo as the main undertaker.sh script. Likewise, the modules currently included are largely unfinished and not as customizable as intended. The project as a whole is also not as scalable as desired. While there is a plan to greatly increase scalability, it likley will not be implemented for several months at least. Here we will list the current plans for the project, and their priorities.
@@ -42,16 +42,12 @@ While modules only require a single script to run locally, modules submitted to 
 To execute a module, simply run undertaker.sh in your terminal. You will then be prompted to enter the identifier for your desired module. Identifiers are made up of a letter representing the module's class (T represents Tools) and a number (ex. T4). If you wish to search for a module that possesses a certain function, you can search the documentation of the modules provided.
 
 ### INSTALLATION:
-Undertaker is currently only known to be functional in Debian flavours of Linux. You will need to use the following command to clone the repository via git:
+Undertaker was written for Debian flavours of Linux. Use the following commands to clone the repository and set up undertaker on your machine:
 
 ```
-sudo git clone https://github.com/randomscript7/undertaker /usr/share/
-```
-And use the following command to allow the modules to be executed:
-```
-sudo chmod +x /usr/share/undertaker/*
-```
-Afterwards, run the integrated setup script by running
-```
-sudo /usr/share/undertaker/undertaker.sh setup
+cd /usr/share
+sudo git clone https://github.com/randomscript7/undertaker
+cd undertaker
+sudo mv undertaker.sh /bin
+sudo undertaker.sh setup
 ```
