@@ -1,2 +1,0 @@
-This file means that the undertaker.sh setup script has been run already. Disregard it.
-This file will be deleted upon running [undertaker.sh setup]
