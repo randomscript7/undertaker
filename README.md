@@ -1,6 +1,6 @@
 # undertaker
 
-A bundle of scripts written and networked by randomscript7
+A bundle of scripts ready-to-use written in Bash
 --------------------------------------------------------------
 
 _**undertaker is still in very early development. Many features are missing for proper release, among other things. If you'd like to contribute to undertaker, open an issue with your contribution. New modules are especially welcome!**_
