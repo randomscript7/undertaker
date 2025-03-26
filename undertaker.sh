@@ -84,8 +84,8 @@ Excecute(){
 			;;
 
 		setup)
-			#If ready.txt file is missing, it's already been set up
-			if ! test -f /usr/share/undertaker/docs/ready.txt; then
+			#If undertaker-dependencies.sh file is missing, it's already been set up
+			if ! test -f /usr/share/undertaker/docs/undertaker-dependencies; then
 				
 				Header
 				echo "undertaker has already been set up, or reconfigured in a way that cannot be reverted by the undertaker setup utiliy."
@@ -95,10 +95,10 @@ Excecute(){
 
 			else
 	
-				#Complete setup tasks, then delete ready.txt
+				#Complete setup tasks, then delete undertaker-dependencies.sh
 				Header
 				echo "Entering undertaker setup..."
-				sleep 
+				sleep 0.5;
 				echo "If you're here, you just cloned the undertaker github repository."
 				echo "You can CTRL-C to exit this if it was on accident."
 				echo "If not, your newly cloned repository will be cleaned up for you."
