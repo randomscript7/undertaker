@@ -32,7 +32,7 @@ undertaker is a small collection of scripts (referred to as "modules"). Undertak
 undertaker.sh was made to be fitted to your machine. Any existing (bash) scripts can be centralized with undertaker.sh by running the simple setup script included. All modules are licensed to allow modification from its users; you may change, improve, and alter the modules downloaded to your local machine in any way you please. **This feature is still in progess.**
 
 ### SUBMITTING AN UNDERTAKER MODULE:
-While modules only require a single script to run locally, modules submitted to the greater undertaker project require additional documentation. This includes a help file and description. In addition, ONLY modules submitted under the GNU GPL or MIT license will be added to the undertaker repository. **This feature is still in progess.**
+While modules only require a single script to run locally, modules submitted to the greater undertaker project require additional documentation. This includes a help file and description. In addition, only modules submitted under the certain licenses will be added to the undertaker repository. **This feature is still in progress.**
 
 ### EXECUTING A MODULE:
 To execute a module, simply run undertaker.sh in your terminal. You will then be prompted to enter the name of your desired module. If you wish to search for a module with a certain function, you can search the modules' documentation provided.
