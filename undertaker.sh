@@ -85,7 +85,7 @@ Excecute(){
 
 		setup)
 			#If undertaker-dependencies.sh file is missing, it's already been set up
-			if ! test -f /usr/share/undertaker/docs/undertaker-dependencies; then
+			if ! test -f /usr/share/undertaker/docs/dependencies.sh; then
 				
 				Header
 				echo "undertaker has already been set up, or reconfigured in a way that cannot be reverted by the undertaker setup utiliy."
@@ -107,7 +107,7 @@ Excecute(){
 				echo "Giving modules executable permissions..."
 				sudo chmod +x /usr/share/undertaker/mods/general/*
 				sudo chmod +x /usr/share/undertaker/mods/pentest/*
-				sudo chmod +x /usr/share/undertaker/docs/dependencies.sh
+				sudo chmod +x /usr/share/undertaker/docs.sh
 				echo "Done."
 				echo "----------"
 				echo "Installing dependencies..."
