@@ -84,8 +84,8 @@ Excecute(){
 			;;
 
 		setup)
-			#If undertaker-dependencies.sh file is missing, it's already been set up
-			if ! test -f /usr/share/undertaker/docs/undertaker-deps.sh; then
+			#If undertakerDeps.sh file is missing, it's already been set up
+			if ! test -f /usr/share/undertaker/docs/undertakerDeps.sh; then
 				
 				Header
 				echo "undertaker has already been set up, or is configured in a way that cannot be reverted by the undertaker setup utiliy."
@@ -95,7 +95,7 @@ Excecute(){
 
 			else
 	
-				#Complete setup tasks, then delete undertaker-dependencies.sh
+				#Complete setup tasks, then delete undertakerDeps.sh
 				Header
 				echo "Entering undertaker setup..."
 				sleep 0.5;
@@ -111,12 +111,12 @@ Excecute(){
 				echo "Done."
 				echo "----------"
 				echo "Installing dependencies..."
-				sudo mv /usr/share/undertaker/docs/undertakerdeps.sh /bin/undertaker-deps.sh
-				sudo undertaker-deps.sh
+				sudo mv /usr/share/undertaker/docs/undertakerdeps.sh /bin/undertakerDeps.sh
+				sudo undertakerDeps.sh
 				echo "Done."
 				echo "----------"
 				echo "The setup process has finished."
-				sudo rm /bin/undertaker-deps.sh
+				sudo rm /bin/undertakerDeps.sh
 				exit 0
 	
 			fi
