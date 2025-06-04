@@ -19,7 +19,7 @@
 
 
 #Array of dependencies to be installed
-dependency-list=(
+dependencyList=(
 		"tlp"
 		"sed"
 		"hashcat"
@@ -30,7 +30,7 @@ dependency-list=(
 #Function to loop though dependency array and install them via apt
 installDeps () {
 	local dependency=0
-	for str in "${dependency-list[@]}"; do
+	for str in "${dependencyList[@]}"; do
 		echo "-----------"
 		echo "Installing $dependency..."
         sudo apt install "$str" -y
