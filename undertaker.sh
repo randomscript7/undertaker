@@ -107,11 +107,11 @@ Excecute(){
 				echo "Giving modules executable permissions..."
 				sudo chmod +x /usr/share/undertaker/mods/general/*
 				sudo chmod +x /usr/share/undertaker/mods/pentest/*
-				sudo chmod +x /usr/share/undertaker/docs/undertaker-deps.sh
+				sudo chmod +x /usr/share/undertaker/docs/undertakerDeps.sh
 				echo "Done."
 				echo "----------"
 				echo "Installing dependencies..."
-				sudo mv /usr/share/undertaker/docs/undertakerdeps.sh /bin/undertakerDeps.sh
+				sudo mv /usr/share/undertaker/docs/undertakerDeps.sh /bin/undertakerDeps.sh
 				sudo undertakerDeps.sh
 				echo "Done."
 				echo "----------"
