@@ -84,42 +84,55 @@ Excecute(){
 			;;
 
 		setup)
-			#If undertaker-dependencies.sh file is missing, it's already been set up
-			if ! test -f /usr/share/undertaker/docs/undertaker-dependencies; then
-				
+			# Check for fresh repo
+			if test -f /usr/share/undertaker/docs/dependencies.sh; then
+				# Fresh repository: proceed with setup
 				Header
-				echo "undertaker has already been set up, or reconfigured in a way that cannot be reverted by the undertaker setup utiliy."
-				echo "If you require an automatic setup, remove the old files manually and reclone the repository."
-				echo "For instructions on how to do a fresh undertaker install, check the README. "
-				exit 1
+				echo "Fresh repository detected. Proceeding with setup."
 
 			else
-	
-				#Complete setup tasks, then delete undertaker-dependencies.sh
-				Header
-				echo "Entering undertaker setup..."
-				sleep 0.5;
-				echo "If you're here, you just cloned the undertaker github repository."
-				echo "You can CTRL-C to exit this if it was on accident."
-				echo "If not, your newly cloned repository will be cleaned up for you."
-				sleep 1; # I never used to need these semicolons, but it seems I might now
-				echo "----------"
-				echo "Giving modules executable permissions..."
-				sudo chmod +x /usr/share/undertaker/mods/general/*
-				sudo chmod +x /usr/share/undertaker/mods/pentest/*
-				sudo chmod +x /usr/share/undertaker/docs/dependencies.sh
-				echo "Done."
-				echo "----------"
-				echo "Installing dependencies..."
-				sudo mv /usr/share/undertaker/docs/dependencies.sh /bin/undertaker-dependencies.sh
-				sudo undertaker-dependencies.sh
-				echo "Done."
-				echo "----------"
-				echo "The setup process has finished."
-				sudo rm /bin/undertaker-dependencies.sh
-				exit 0
-	
+				# Check for existing installation (if either path exists, treat as installed)
+				if [ -f /bin/undertaker.sh ] || [ -d /usr/share/undertaker ]; then
+					Header
+					echo "Undertaker appears to already be installed."
+					read -p "Do you want to reinstall (overwrite existing files)? (y/n): " confirm
+					if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+						echo "Reinstall cancelled."
+						exit 0
+					fi
+					
+				else
+					# No installation detected
+					Header
+					echo "No valid installation or repository detected."
+					echo "Please ensure the repository is fully cloned or restore dependencies.sh."
+					exit 1
+				fi
 			fi
+
+			#Complete setup tasks, then delete undertaker-dependencies.sh
+			Header
+			echo "Entering undertaker setup..."
+			sleep 0.5;
+			echo "If you're here, you just cloned the undertaker github repository."
+			echo "You can CTRL-C to exit this if it was on accident."
+			echo "If not, your newly cloned repository will be cleaned up for you."
+			sleep 1; # I never used to need these semicolons, but it seems I might now
+			echo "----------"
+			echo "Giving modules executable permissions..."
+			sudo chmod +x /usr/share/undertaker/mods/general/*
+			sudo chmod +x /usr/share/undertaker/mods/pentest/*
+			sudo chmod +x /usr/share/undertaker/docs/dependencies.sh
+			echo "Done."
+			echo "----------"
+			echo "Installing dependencies..."
+			sudo mv /usr/share/undertaker/docs/dependencies.sh /bin/undertaker-dependencies.sh
+			sudo undertaker-dependencies.sh
+			echo "Done."
+			echo "----------"
+			echo "The setup process has finished."
+			sudo rm /bin/undertaker-dependencies.sh
+			exit 0
 			;;
 
 		config)
