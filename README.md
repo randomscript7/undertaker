@@ -41,9 +41,7 @@ To execute a module, simply run undertaker.sh in your terminal. You will then be
 Undertaker was written for Debian flavours of Linux. Use the following commands to clone the repository and set up Undertaker on your machine:
 
 ```
-cd /usr/share
-sudo git clone https://github.com/randomscript7/undertaker
-cd undertaker
-sudo mv undertaker.sh /bin
-sudo undertaker.sh setup
+git clone https://github.com/randomscript7/undertaker ~/undertaker
+cd ~/undertaker
+sudo ./undertaker.sh setup
 ```

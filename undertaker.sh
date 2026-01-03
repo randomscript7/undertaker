@@ -85,10 +85,13 @@ Excecute(){
 
 		setup)
 			# Check for fresh repo
-			if test -f /usr/share/undertaker/docs/dependencies.sh; then
+			current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+			if test -f "$current_dir/docs/dependencies.sh"; then
 				# Fresh repository: proceed with setup
 				Header
 				echo "Fresh repository detected. Proceeding with setup."
+				sudo rm -rf /usr/share/undertaker
+				sudo mv "$current_dir" /usr/share/undertaker
 
 			else
 				# Check for existing installation (if either path exists, treat as installed)
