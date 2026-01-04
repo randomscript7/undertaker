@@ -17,7 +17,6 @@
 #-----------
 #tar - used for file archiving
 
-
 #Array of dependencies to be installed
 dependency-list=(
 		"tlp"
