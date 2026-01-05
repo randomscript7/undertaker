@@ -85,7 +85,7 @@ Excecute(){
 
 		setup)
 			# Check for fresh repo
-			current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+			current_dir="$(pwd)"
 			if test -f "$current_dir/docs/dependencies.sh"; then
 				# Fresh repository: proceed with setup
 				Header

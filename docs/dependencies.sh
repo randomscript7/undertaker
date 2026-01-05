@@ -11,28 +11,28 @@
 #hashcracker.sh
 #-----------
 #hashcat - used for actual cracking of hashes
-#hash-identifier - unsed for automatic hash identification
+#hash-identifier - used for automatic hash identification
 
 #shelf.sh
 #-----------
 #tar - used for file archiving
 
 #Array of dependencies to be installed
-dependency-list=(
-		"tlp"
-		"sed"
-		"hashcat"
-		"hash-identifier"
-		"tar"
-    )
+dependencyList=(
+	"tlp"
+	"sed"
+	"hashcat"
+	"hash-identifier"
+	"tar"
+)
 
 #Function to loop though dependency array and install them via apt
 installDeps () {
 	local dependency=0
-	for str in "${dependency-list[@]}"; do
+	for str in "${dependencyList[@]}"; do
 		echo "-----------"
-		echo "Installing $dependency..."
-        sudo apt install "$str" -y
+		echo "Installing "$str"..."
+		sudo apt install "$str" -y
 
 		((dependency++))
 
