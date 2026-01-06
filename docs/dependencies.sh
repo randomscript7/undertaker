@@ -11,7 +11,6 @@
 #hashcracker.sh
 #-----------
 #hashcat - used for actual cracking of hashes
-#hash-identifier - used for automatic hash identification
 
 #shelf.sh
 #-----------
@@ -22,7 +21,6 @@ dependencyList=(
 	"tlp"
 	"sed"
 	"hashcat"
-	"hash-identifier"
 	"tar"
 )
 

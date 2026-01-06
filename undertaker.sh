@@ -85,7 +85,11 @@ Excecute(){
 
 		setup)
 			# Check for fresh repo
-			current_dir="$(pwd)"
+			current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+			if [[ "$current_dir" != *"/undertaker"* ]]; then
+				echo "Error: You must clone the repository to a directory named 'undertaker' as per the README. Setup aborted."
+				exit 1
+			fi
 			if test -f "$current_dir/docs/dependencies.sh"; then
 				# Fresh repository: proceed with setup
 				Header
@@ -133,6 +137,8 @@ Excecute(){
 			sudo undertaker-dependencies.sh
 			echo "Done."
 			echo "----------"
+			sudo mv /usr/share/undertaker/undertaker.sh /bin/undertaker.sh
+			rm -rf "$current_dir"
 			echo "The setup process has finished."
 			sudo rm /bin/undertaker-dependencies.sh
 			exit 0
