@@ -90,6 +90,7 @@ Excecute(){
 				echo "Error: You must clone the repository to a directory named 'undertaker' as per the README. Setup aborted."
 				exit 1
 			fi
+
 			if test -f "$current_dir/docs/dependencies.sh"; then
 				# Fresh repository: proceed with setup
 				Header
@@ -135,6 +136,7 @@ Excecute(){
 			echo "Installing dependencies..."
 			sudo mv /usr/share/undertaker/docs/dependencies.sh /bin/undertaker-dependencies.sh
 			sudo undertaker-dependencies.sh
+			
 			# Setup additional tools after dependencies install
 			echo "Setting up additional tools..."
 
@@ -157,21 +159,24 @@ Excecute(){
 			# Eza alias
 			echo "alias le='eza -l --tree --level=2 --binary --no-user --no-permissions --color-scale=size --color-scale-mode=gradient'" >> "$config_file"
 
-			# Zoxide init
+			# Zoxide initialization
 			echo "$zoxide_init" >> "$config_file"
 
-			# Bat alias for cat
+			# Bat[cat] alias for cat
 			if command -v bat >/dev/null 2>&1; then
 				echo 'alias cat="bat"' >> "$config_file"
 			elif command -v batcat >/dev/null 2>&1; then
 				echo 'alias cat="batcat"' >> "$config_file"
 			fi
 
-			echo "Additional setups completed. Restart your terminal or run 'source $config_file' for changes to take effect."
+			echo "----------"
+			echo "Additional setups completed."
 			read -p "Would you like to source $config_file now? (y/n): " source_now
 			if [[ "$source_now" == "y" || "$source_now" == "Y" ]]; then
 				source "$config_file"
 				echo "Sourced $config_file."
+			else
+				echo "Restart your terminal or run 'source $config_file' for changes to take effect."
 			fi
 			echo "----------"
 			echo "Done."

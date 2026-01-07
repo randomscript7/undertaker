@@ -10,7 +10,7 @@ dependencyList=(
 	"hashcat" # Used for hash cracking in hashcracker
 	"tar" # For file archiving in shelf
 	"bat" # For making files look nice in the terminal
-	"zoxide" # For fast directory navigation
+	"zoxide" # For fast directory navigation (Seems to work when installed via apt)
 	"fzf" # For fuzzy finding, and zoxide
 	"eza" # For making ls better
 )
