@@ -14,7 +14,7 @@ Header () {
 	echo -e "----------------------------------------------------"
 }
 
-#This is a script that backs up/extracts the undertaker directory and notes file.
+# This is a script that backs up/extracts the undertaker directory and notes file.
 # Plan to add custom file selection and backup location in the future
 
 Header
@@ -35,7 +35,7 @@ if [ "$operation" == "backup" ]; then
         mkdir ~/backups/$date/raw # Create raw folder for uncompressed files
         echo "-----------------------------"
         echo "Copying files..."
-        sudo cp -r  /usr/share/undertaker/ ~/backups/$date/raw #Copy undertaker content to raw folder
+        sudo cp -r  /usr/share/undertaker/ ~/backups/$date/raw # Copy undertaker content to raw folder
         sudo cp ~/Desktop/notes.txt ~/backups/$date/raw # Copy notes file to raw folder
         echo "-----------------------------"
         echo Creating archive via tar...

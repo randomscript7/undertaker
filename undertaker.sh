@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#config var bank
+# Config var bank
 waitTime=1
 
 # Opens menu to introduce script
@@ -68,7 +68,7 @@ Excecute(){
 			echo "Due to the magnitude of undertaker, there may be several problems. These problems must be identified in order to be fixed easier."
 			echo "Anywhere an error could commonly occur, an error code will be returned. These error codes are as follows:"
 			echo "[Error codes have not yet been implemented]"
-			#Proper error codes will be added eventually
+			# Proper error codes will be added eventually
 			exit 0
 			;;
 
@@ -118,7 +118,7 @@ Excecute(){
 				fi
 			fi
 
-			#Complete setup tasks, then delete undertaker-dependencies.sh
+			# Complete setup tasks, then delete undertaker-dependencies.sh
 			Header
 			echo "Entering undertaker setup..."
 			sleep 0.5;
@@ -189,8 +189,8 @@ Excecute(){
 			;;
 
 		config)
-			#Integrated setVar.sh for undertaker.sh
-			#Useless for now, may be expanded later on
+			# Integrated setVar.sh for undertaker.sh
+			# Useless for now, may be expanded later on
 			Header
 			echo "The following settings can be changed: "
 			echo "waitTime - Time the undertaker.sh header is shown before starting a module"
@@ -245,7 +245,7 @@ Excecute(){
 	esac
 }
 
-# ----------SCRIPT STARTS HERE----------------
+# ---------- Script starts here ----------------
 
 # Detect whether the script was executed with an argument or not
 if [ "$#" -eq 0 ]; then	
@@ -258,8 +258,8 @@ if [ "$#" -eq 0 ]; then
 	echo "It has little function of its own other than connecting 'modules' (scripts) to a centralized tool."
 	echo "This allows documentation and heightened ease of use of numerous tools that would usually be understood only by its creator."
 	echo "-----------"
-	
-	#This prompts the user to pick a module, and executes it
+
+	# This prompts the user to pick a module, and executes it
 	modulePicker
 else
 	# If this script was invoked with a module code, go to that module directly

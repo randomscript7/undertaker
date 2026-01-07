@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#This file contains the dependencies that may need to be installed on undertaker setup.
-#This file will be deleted upon running [undertaker.sh setup]
+# This file contains the dependencies that may need to be installed on undertaker setup.
+# This file will be deleted upon running [undertaker.sh setup]
 
-#Array of dependencies to be installed
+# Array of dependencies to be installed
 dependencyList=(
 	"tlp" # Used for power management in setVar
 	"sed" # Used for text manipulation in setVar
@@ -15,7 +15,7 @@ dependencyList=(
 	"eza" # For making ls better
 )
 
-#Function to loop though dependency array and install them via apt
+# Function to loop though dependency array and install them via apt
 installDeps () {
 	local dependency=0
 	for str in "${dependencyList[@]}"; do
