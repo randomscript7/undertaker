@@ -43,5 +43,6 @@ Undertaker was written for Debian flavours of Linux. Use the following commands 
 ```
 git clone https://github.com/randomscript7/undertaker ~/undertaker
 cd ~/undertaker
+sudo chmod +x undertaker.sh
 sudo ./undertaker.sh setup
 ```

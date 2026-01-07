@@ -22,6 +22,9 @@ dependencyList=(
 	"sed"
 	"hashcat"
 	"tar"
+	"bat"
+	"zoxide"
+	"eza"
 )
 
 #Function to loop though dependency array and install them via apt
