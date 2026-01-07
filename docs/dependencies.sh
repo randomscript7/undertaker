@@ -3,28 +3,16 @@
 #This file contains the dependencies that may need to be installed on undertaker setup.
 #This file will be deleted upon running [undertaker.sh setup]
 
-#setVar.sh
-#-----------
-#tlp - used for power management
-#sed - used for text manipulation
-
-#hashcracker.sh
-#-----------
-#hashcat - used for actual cracking of hashes
-
-#shelf.sh
-#-----------
-#tar - used for file archiving
-
 #Array of dependencies to be installed
 dependencyList=(
-	"tlp"
-	"sed"
-	"hashcat"
-	"tar"
-	"bat"
-	"zoxide"
-	"eza"
+	"tlp" # Used for power management in setVar
+	"sed" # Used for text manipulation in setVar
+	"hashcat" # Used for hash cracking in hashcracker
+	"tar" # For file archiving in shelf
+	"bat" # For making files look nice in the terminal
+	"zoxide" # For fast directory navigation
+	"fzf" # For fuzzy finding, and zoxide
+	"eza" # For making ls better
 )
 
 #Function to loop though dependency array and install them via apt
