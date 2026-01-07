@@ -147,15 +147,15 @@ Excecute(){
 
 			# Set config and zoxide init based on shell
 			if [[ "$shell_type" == "zsh" ]]; then
-				config_file=~/.zshrc
+				config_file=$HOME/.zshrc
 				zoxide_init='eval "$(zoxide init zsh)"'
 			else  # Assume bash for all else
-				config_file=~/.bashrc
+				config_file=$HOME/.bashrc
 				zoxide_init='eval "$(zoxide init bash)"'
 			fi
 
 			# Eza alias
-			echo 'alias le="eza -l --tree --level=2 --binary --no-user --no-permissions --color-scale=size --color-scale-mode=gradient"' >> "$config_file"
+			echo "alias le='eza -l --tree --level=2 --binary --no-user --no-permissions --color-scale=size --color-scale-mode=gradient'" >> "$config_file"
 
 			# Zoxide init
 			echo "$zoxide_init" >> "$config_file"
