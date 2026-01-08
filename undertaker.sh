@@ -132,6 +132,7 @@ Excecute(){
 			sudo chmod +x /usr/share/undertaker/mods/general/*
 			sudo chmod +x /usr/share/undertaker/mods/pentest/*
 			sudo chmod +x /usr/share/undertaker/docs/dependencies.sh
+			sudo chmod +x /usr/share/undertaker/docs/uninstall.sh
 			echo "Done."
 			echo "----------"
 			echo "Installing dependencies..."

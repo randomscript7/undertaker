@@ -1,17 +1,5 @@
 #!/bin/bash
 
-# Check for root permissions
-if [[ $EUID -ne 0 ]]; then
-    echo "Error: This script must be run with sudo."
-    exit 5
-fi
-
-# Check for full installation
-if [[ ! -f /bin/undertaker.sh ]] || [[ ! -d /usr/share/undertaker ]]; then
-    echo "Error: Undertaker does not appear to be fully installed. Please run setup first."
-    exit 1
-fi
-
 Header () {
 	clear
 	echo -e "----------------------------------------------------"
@@ -24,6 +12,18 @@ Header () {
 	echo -e "A script networking tool written by randomscript7   "
 	echo -e "----------------------------------------------------"
 }
+
+# Check for root permissions
+if [[ $EUID -ne 0 ]]; then
+    echo "Error: This script must be run with sudo."
+    exit 5
+fi
+
+# Check for full installation
+if [[ ! -f /bin/undertaker.sh ]] || [[ ! -d /usr/share/undertaker ]]; then
+    echo "Error: Undertaker does not appear to be fully installed. Please run setup first."
+    exit 1
+fi
 
 # Initial confirmation
 Header
@@ -87,6 +87,7 @@ for dep in "${to_remove[@]}"; do
 done
 
 # Remove directories and files
+echo "----------"
 echo "Removing /usr/share/undertaker..."
 rm -rf /usr/share/undertaker
 
@@ -104,11 +105,14 @@ else
     zoxide_init='eval "$(zoxide init bash)"'
 fi
 
-# Remove lines
-sed -i "/^alias le='eza -l --tree --level=2 --binary --no-user --no-permissions --color-scale=size --color-scale-mode=gradient'$/d" "$config_file"
-sed -i "/^$zoxide_init$/d" "$config_file"
-sed -i '/^alias cat="bat"$/d' "$config_file"
-sed -i '/^alias cat="batcat"$/d' "$config_file"
+# Remove terminal config changes
+# Note format [sed -i "s/old/new/g" filename]
+zInitFind= "$zoxide_init"
+aliasFind="alias le='eza -l --tree --level=2 --binary --no-user --no-permissions --color-scale=size --color-scale-mode=gradient'"
 
+sed -i "s/{$aliasFind}//g" "$config_file"
+sed -i "s/{$zoxide_init}//g" "$config_file"
+
+echo "----------"
 echo "Uninstall complete. Restart your terminal for config changes to take effect."
 exit 0
