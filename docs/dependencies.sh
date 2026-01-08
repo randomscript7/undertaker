@@ -6,9 +6,9 @@
 # Array of dependencies to be installed
 dependencyList=(
 	"tlp" # Used for power management in setVar
-	"sed" # Used for text manipulation in setVar
+	#"sed" # Used for text manipulation in setVar (usually pre-installed anyway, critical package)
 	"hashcat" # Used for hash cracking in hashcracker
-	"tar" # For file archiving in shelf
+	#"tar" # For file archiving in shelf (usually pre-installed anyway, critical package)
 	"bat" # For making files look nice in the terminal
 	"zoxide" # For fast directory navigation (Seems to work when installed via apt)
 	"fzf" # For fuzzy finding, and zoxide
