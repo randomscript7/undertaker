@@ -86,14 +86,6 @@ for dep in "${to_remove[@]}"; do
     apt remove -y "$dep"
 done
 
-# Remove directories and files
-echo "----------"
-echo "Removing /usr/share/undertaker..."
-rm -rf /usr/share/undertaker
-
-echo "Removing /bin/undertaker.sh..."
-rm /bin/undertaker.sh
-
 # Clean up shell config
 # Detect shell
 shell_type=$(basename "$SHELL")
@@ -107,15 +99,28 @@ fi
 
 # Remove terminal config changes
 # Note format [sed -i "s/old/new/g" filename]
-zInitFind=$(printf '%s' "$zoxide_init" | sed 's/[][\/.^$*]/\\&/g'); 
+zoxide_entry="$zoxide_init"
+zInitFind=$(printf '%s' "$zoxide_entry" | sed 's/[][\/.^$*]/\\&/g'); 
 
 eza_alias="alias le='eza -l --tree --level=2 --binary --no-user --no-permissions --color-scale=size --color-scale-mode=gradient'"
 ezaAliasFind=$(printf '%s' "$eza_alias" | sed 's/[][\/.^$*]/\\&/g')
-batcatAliasFind=$(printf '%s' "$eza_alias" | sed 's/[][\/.^$*]/\\&/g')
+
+batcat_alias='alias cat="batcat"'
+batcatAliasFind=$(printf '%s' "$batcat_alias" | sed 's/[][\/.^$*]/\\&/g')
+
+#TODO: Sed ain't workin
 
 sed -i "s|$zInitFind||g" "$config_file"
 sed -i "s|$ezaAliasFind||g" "$config_file"
 sed -i "s|$batcatAliasFind||g" "$config_file"
+
+# Remove directories and files
+echo "----------"
+echo "Removing /usr/share/undertaker..."
+rm -rf /usr/share/undertaker
+
+echo "Removing /bin/undertaker.sh..."
+rm /bin/undertaker.sh
 
 echo "----------"
 echo "Uninstall complete. Restart your terminal for config changes to take effect."
