@@ -151,10 +151,10 @@ Excecute(){
 
 			# Set config and zoxide init based on shell
 			if [[ "$shell_type" == "zsh" ]]; then
-				config_file=$SUDO_USER/.zshrc
+				config_file=/home/$SUDO_USER/.zshrc
 				zoxide_init='eval "$(zoxide init zsh)"'
 			else  # Assume bash for all else
-				config_file=$SUDO_USER/.bashrc
+				config_file=/home/$SUDO_USER/.bashrc
 				zoxide_init='eval "$(zoxide init bash)"'
 			fi
 
