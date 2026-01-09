@@ -107,11 +107,14 @@ fi
 
 # Remove terminal config changes
 # Note format [sed -i "s/old/new/g" filename]
-zInitFind= "$zoxide_init"
-aliasFind="alias le='eza -l --tree --level=2 --binary --no-user --no-permissions --color-scale=size --color-scale-mode=gradient'"
+zInitFind=$(printf '%s' "$zoxide_init" | sed 's/[][\/.^$*]/\\&/g'); 
 
-sed -i "s/{$aliasFind}//g" "$config_file"
-sed -i "s/{$zoxide_init}//g" "$config_file"
+eza_alias="alias le='eza -l --tree --level=2 --binary --no-user --no-permissions --color-scale=size --color-scale-mode=gradient'"
+aliasFind=$(printf '%s' "$eza_alias" | sed 's/[][\/.^$*]/\\&/g')
+
+sed -i "s|$zInitFind||g" "$config_file"
+sed -i "s|$aliasFind||g" "$config_file"
+#sed -i "s/{$zoxide_init}//g" "$config_file"
 
 echo "----------"
 echo "Uninstall complete. Restart your terminal for config changes to take effect."
