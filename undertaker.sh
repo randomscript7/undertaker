@@ -164,12 +164,15 @@ Excecute(){
 			# Zoxide initialization
 			echo "$zoxide_init" >> "$config_file"
 
-			# Bat[cat] alias for cat
-			if command -v bat >/dev/null 2>&1; then
-				echo 'alias cat="bat"' >> "$config_file"
-			elif command -v batcat >/dev/null 2>&1; then
-				echo 'alias cat="batcat"' >> "$config_file"
-			fi
+			# batcat works in both bash and zsh, so default to that
+			echo 'alias cat="batcat"' >> "$config_file"
+
+			# Bat[cat] alias for cat (unreliabe right now)
+			#if command -v bat >/dev/null 2>&1; then
+			#	echo 'alias cat="batcat"' >> "$config_file"
+			#elif command -v batcat >/dev/null 2>&1; then
+			#	echo 'alias cat="batcat"' >> "$config_file"
+			#fi
 
 			echo "----------"
 			echo "Additional setups completed."

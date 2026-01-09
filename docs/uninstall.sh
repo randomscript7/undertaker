@@ -110,11 +110,12 @@ fi
 zInitFind=$(printf '%s' "$zoxide_init" | sed 's/[][\/.^$*]/\\&/g'); 
 
 eza_alias="alias le='eza -l --tree --level=2 --binary --no-user --no-permissions --color-scale=size --color-scale-mode=gradient'"
-aliasFind=$(printf '%s' "$eza_alias" | sed 's/[][\/.^$*]/\\&/g')
+ezaAliasFind=$(printf '%s' "$eza_alias" | sed 's/[][\/.^$*]/\\&/g')
+batcatAliasFind=$(printf '%s' "$eza_alias" | sed 's/[][\/.^$*]/\\&/g')
 
 sed -i "s|$zInitFind||g" "$config_file"
-sed -i "s|$aliasFind||g" "$config_file"
-#sed -i "s/{$zoxide_init}//g" "$config_file"
+sed -i "s|$ezaAliasFind||g" "$config_file"
+sed -i "s|$batcatAliasFind||g" "$config_file"
 
 echo "----------"
 echo "Uninstall complete. Restart your terminal for config changes to take effect."
