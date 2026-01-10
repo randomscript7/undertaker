@@ -92,28 +92,20 @@ Excecute(){
  				exit 1
  			fi
 
- 			if test -f "$current_dir/docs/dependencies.sh"; then
- 				# Fresh repository: proceed with install
- 				sudo "$current_dir/docs/manage.sh" --install
- 			else
- 				# Check for existing installation
- 				if [ -f /bin/undertaker.sh ] || [ -d /usr/share/undertaker ]; then
- 					Header
- 					echo "Undertaker appears to already be installed."
- 					read -p "Do you want to reinstall (overwrite existing files)? (y/n): " confirm
- 					if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
- 						echo "Reinstall cancelled."
- 						exit 0
- 					fi
- 					sudo "$current_dir/docs/manage.sh" --reinstall
- 				else
- 					# No installation detected
- 					Header
- 					echo "No valid installation or repository detected."
- 					echo "Please ensure the repository is fully cloned or restore dependencies.sh."
- 					exit 1
- 				fi
- 			fi
+			if [ -f /bin/undertaker.sh ] || [ -d /usr/share/undertaker ]; then
+				# Existing installation detected
+				Header
+				echo "Undertaker appears to already be installed."
+				read -p "Do you want to reinstall (overwrite existing files)? (y/n): " confirm
+				if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+					echo "Reinstall cancelled."
+					exit 0
+				fi
+				sudo "$current_dir/docs/manage.sh" --reinstall
+			else
+				# No installation detected - proceed with fresh install
+				sudo "$current_dir/docs/manage.sh" --install
+			fi
  			exit 0
  			;;
 
