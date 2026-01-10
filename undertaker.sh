@@ -92,6 +92,7 @@ Excecute(){
  				exit 1
  			fi
 
+			sudo chmod +x "$current_dir/docs/manage.sh"
 			if [ -f /bin/undertaker.sh ] || [ -d /usr/share/undertaker ]; then
 				# Existing installation detected
 				Header
@@ -101,6 +102,7 @@ Excecute(){
 					echo "Reinstall cancelled."
 					exit 0
 				fi
+
 				sudo "$current_dir/docs/manage.sh" --reinstall
 			else
 				# No installation detected - proceed with fresh install
