@@ -37,6 +37,7 @@ do_install() {
 	echo "Installing dependencies..."
 	installDeps
 
+	# Defines config_file and zoxide_init
 	setup_shell_config
 
 	# Add aliases

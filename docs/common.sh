@@ -23,11 +23,12 @@ setup_shell_config() {
 		SHELL=/bin/bash
 	fi
 	shell_type=$(basename "$SHELL")
+	user_home="/home/$(logname)"
 	if [[ "$shell_type" == "zsh" ]]; then
-		config_file=/home/$SUDO_USER/.zshrc
+		config_file=/$user_home/.zshrc
 		zoxide_init='eval "$(zoxide init zsh)"'
 	else
-		config_file=/home/$SUDO_USER/.bashrc
+		config_file=/$user_home/.bashrc
 		zoxide_init='eval "$(zoxide init bash)"'
 	fi
 }
