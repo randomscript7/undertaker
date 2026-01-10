@@ -90,10 +90,10 @@ done
 # Detect shell
 shell_type=$(basename "$SHELL")
 if [[ "$shell_type" == "zsh" ]]; then
-    config_file=$HOME/.zshrc
+    config_file=/home/$SUDO_USER/.zshrc
     zoxide_init='eval "$(zoxide init zsh)"'
 else
-    config_file=$HOME/.bashrc
+    config_file=/home/$SUDO_USER/.bashrc
     zoxide_init='eval "$(zoxide init bash)"'
 fi
 
