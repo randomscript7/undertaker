@@ -46,3 +46,8 @@ cd ~/undertaker
 sudo chmod +x undertaker.sh
 sudo ./undertaker.sh setup
 ```
+
+For advanced usage, you can also use the unified management script directly:
+- `sudo ./docs/manage.sh --install` for fresh installation
+- `sudo ./docs/manage.sh --uninstall` for removal
+- `sudo ./docs/manage.sh --reinstall` for clean reinstall

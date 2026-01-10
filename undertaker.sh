@@ -84,114 +84,38 @@ Excecute(){
 			exit 0
 			;;
 
-		setup)
-			# Check for fresh repo
-			current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-			if [[ "$current_dir" != *"/undertaker"* ]]; then
-				echo "Error: You must clone the repository to a directory named 'undertaker' as per the README. Setup aborted."
-				exit 1
-			fi
+ 		setup)
+ 			# Check for fresh repo
+ 			current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ 			if [[ "$current_dir" != *"/undertaker"* ]]; then
+ 				echo "Error: You must clone the repository to a directory named 'undertaker' as per the README. Setup aborted."
+ 				exit 1
+ 			fi
 
-			if test -f "$current_dir/docs/dependencies.sh"; then
-				# Fresh repository: proceed with setup
-				Header
-				echo "Fresh repository detected. Proceeding with setup."
-				sudo rm -rf /usr/share/undertaker
-				sudo mv "$current_dir" /usr/share/undertaker
-
-			else
-				# Check for existing installation (if either path exists, treat as installed)
-				if [ -f /bin/undertaker.sh ] || [ -d /usr/share/undertaker ]; then
-					Header
-					echo "Undertaker appears to already be installed."
-					read -p "Do you want to reinstall (overwrite existing files)? (y/n): " confirm
-					if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
-						echo "Reinstall cancelled."
-						exit 0
-					fi
-					
-				else
-					# No installation detected
-					Header
-					echo "No valid installation or repository detected."
-					echo "Please ensure the repository is fully cloned or restore dependencies.sh."
-					exit 1
-				fi
-			fi
-
-			# Complete setup tasks, then delete undertaker-dependencies.sh
-			Header
-			echo "Entering undertaker setup..."
-			sleep 0.5;
-			echo "If you're here, you just cloned the undertaker github repository."
-			echo "You can CTRL-C to exit this if it was on accident."
-			echo "If not, your newly cloned repository will be cleaned up for you."
-			sleep 1; # I never used to need these semicolons, but it seems I might now
-			echo "----------"
-			echo "Giving modules executable permissions..."
-			sudo chmod +x /usr/share/undertaker/mods/general/*
-			sudo chmod +x /usr/share/undertaker/mods/pentest/*
-			sudo chmod +x /usr/share/undertaker/docs/dependencies.sh
-			sudo chmod +x /usr/share/undertaker/docs/uninstall.sh
-			echo "Done."
-			echo "----------"
-			echo "Installing dependencies..."
-			sudo mv /usr/share/undertaker/docs/dependencies.sh /bin/undertaker-dependencies.sh
-			sudo undertaker-dependencies.sh
-			
-			# Setup additional tools after dependencies install
-			echo "Setting up additional tools..."
-
-			# Check and set shell
-			if [[ -z "$SHELL" ]]; then
-				echo "WARNING: \$SHELL is unset. Assuming bash."
-				SHELL=/bin/bash
-			fi
-			shell_type=$(basename "$SHELL")
-
-			# Set config and zoxide init based on shell
-			if [[ "$shell_type" == "zsh" ]]; then
-				config_file=/home/$SUDO_USER/.zshrc
-				zoxide_init='eval "$(zoxide init zsh)"'
-			else  # Assume bash for all else
-				config_file=/home/$SUDO_USER/.bashrc
-				zoxide_init='eval "$(zoxide init bash)"'
-			fi
-
-			# Eza alias
-			echo "alias le='eza -l --tree --level=2 --binary --no-user --no-permissions --color-scale=size --color-scale-mode=gradient'" >> "$config_file"
-
-			# Zoxide initialization
-			echo "$zoxide_init" >> "$config_file"
-
-			# batcat works in both bash and zsh, so default to that
-			echo 'alias cat="batcat"' >> "$config_file"
-
-			# Bat[cat] alias for cat (unreliabe right now)
-			#if command -v bat >/dev/null 2>&1; then
-			#	echo 'alias cat="batcat"' >> "$config_file"
-			#elif command -v batcat >/dev/null 2>&1; then
-			#	echo 'alias cat="batcat"' >> "$config_file"
-			#fi
-
-			echo "----------"
-			echo "Additional setups completed."
-			read -p "Would you like to source $config_file now? (y/n): " source_now
-			if [[ "$source_now" == "y" || "$source_now" == "Y" ]]; then
-				source "$config_file"
-				echo "Sourced $config_file."
-			else
-				echo "Restart your terminal or run 'source $config_file' for changes to take effect."
-			fi
-			echo "----------"
-			echo "Done."
-			echo "----------"
-			sudo mv /usr/share/undertaker/undertaker.sh /bin/undertaker.sh
-			rm -rf "$current_dir"
-			sudo rm /bin/undertaker-dependencies.sh
-			echo "The setup process has finished."
-			exit 0
-			;;
+ 			if test -f "$current_dir/docs/dependencies.sh"; then
+ 				# Fresh repository: proceed with install
+ 				sudo "$current_dir/docs/manage.sh" --install
+ 			else
+ 				# Check for existing installation
+ 				if [ -f /bin/undertaker.sh ] || [ -d /usr/share/undertaker ]; then
+ 					Header
+ 					echo "Undertaker appears to already be installed."
+ 					read -p "Do you want to reinstall (overwrite existing files)? (y/n): " confirm
+ 					if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+ 						echo "Reinstall cancelled."
+ 						exit 0
+ 					fi
+ 					sudo "$current_dir/docs/manage.sh" --reinstall
+ 				else
+ 					# No installation detected
+ 					Header
+ 					echo "No valid installation or repository detected."
+ 					echo "Please ensure the repository is fully cloned or restore dependencies.sh."
+ 					exit 1
+ 				fi
+ 			fi
+ 			exit 0
+ 			;;
 
 		config)
 			# Integrated setVar.sh for undertaker.sh
@@ -241,10 +165,10 @@ Excecute(){
 		#
 		# -- Comment out unfinished submodule --
 
-		uninstall)
-			/usr/share/undertaker/docs/uninstall.sh
-			exit 0
-			;;
+ 		uninstall)
+ 			sudo /usr/share/undertaker/docs/manage.sh --uninstall
+ 			exit 0
+ 			;;
 
 		*)
 			echo "----------"
