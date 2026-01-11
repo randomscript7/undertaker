@@ -19,11 +19,7 @@ Header () {
 setup_shell_config() {
 	# Get the name of the user who invoked the script
 	# We do NOT need root's home directory
-	if [ $SUDO_USER ]; then
-		realUser=$SUDO_USER
-	else 
-		realUser=$(whoami)
-	fi
+	realUser=$(ls -ld /home/* 2>/dev/null | awk '{print $3}' | head -n 1)
 
 	if [[ -z "$SHELL" ]]; then
 		echo "WARNING: \$SHELL is unset. Assuming bash."
