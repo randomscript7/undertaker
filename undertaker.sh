@@ -65,7 +65,6 @@ Excecute(){
 
 		404)
 			echo "-----------"
-			echo "Due to the magnitude of undertaker, there may be several problems. These problems must be identified in order to be fixed easier."
 			echo "Anywhere an error could commonly occur, an error code will be returned. These error codes are as follows:"
 			echo "Exit code 1: General error (incorrect input, unknown error, etc)"
 			echo "Exit code 5: Insufficient permissions"
