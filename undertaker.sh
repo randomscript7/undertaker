@@ -133,6 +133,44 @@ Excecute(){
 			exit 0
 			;;
 
+		--help)
+			echo "----------"
+			echo "Undertaker.sh Help Menu"
+			echo "This is the main script that connects all undertaker modules."
+			echo "You may run this script without arguments for a wizard-based experience."
+			echo "You may also run this script with a module code as an argument to fast-track to that module."
+			echo "Scripts which require certain filepaths have been written to allow running both with/without sudo."
+			echo "Examples:"
+			echo "  > sudo undertaker.sh latest"
+			echo "  > undertaker.sh hashcracker"
+			echo ""
+			echo "Available module codes:"
+			echo "latest     - Runs the latest.sh module to update the system."
+			echo "setVar     - Runs the setVar.sh module to set undertaker variables."
+			echo "shelf      - Runs the shelf.sh module to backup/extract files."
+			echo "hashcracker- Runs the hashcracker.sh module to brute-force hashes."
+			echo "hashmaker  - Runs the hashmaker.sh module to create hashes using openssl."
+			echo "404        - Displays undertaker.sh error codes."
+			echo "search     - Searches moduleList.txt for modules matching your search terms."
+			echo "setup      - Sets Undertaker up on your system."
+			echo "config     - Configures undertaker.sh settings."
+			echo "uninstall  - Uninstalls undertaker from the system."
+			echo ""
+			exit 0
+			;;
+
+		--version)
+			echo "----------"
+			echo "Undertaker.sh Version 1.0.0"
+			echo "A script networking tool written by randomscript7"
+			echo "----------"
+			echo "Disclaimer: I very probably forgot to update this version number at some point..."
+			echo "Unless the version is in the form x.y.0, Assume this is slightly outdated."
+			echo -e ":)"
+			echo ""
+			exit 0
+			;;
+
 		#-- Comment out unfinished submodule --
 		
 		#add)
