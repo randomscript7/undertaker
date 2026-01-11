@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Common functions for undertaker scripts
 
 # Opens menu to introduce script
@@ -18,18 +17,25 @@ Header () {
 
 # Function to detect shell and set config file
 setup_shell_config() {
+	# Get the name of the user who invoked the script
+	# We do NOT need root's home directory
+	if [ $SUDO_USER ]; then
+		realUser=$SUDO_USER
+	else 
+		realUser=$(whoami)
+	fi
+
 	if [[ -z "$SHELL" ]]; then
 		echo "WARNING: \$SHELL is unset. Assuming bash."
 		SHELL=/bin/bash
 	fi
 	shell_type=$(basename "$SHELL")
-	REAL_USER="${SUDO_USER:-$USER}"
-	userHome=$(getent passwd "$REAL_USER" | cut -d: -f6)
+
 	if [[ "$shell_type" == "zsh" ]]; then
-		config_file=/$userHome/.zshrc
+		config_file=/home/$realUser/.zshrc
 		zoxide_init='eval "$(zoxide init zsh)"'
 	else
-		config_file=/$userHome/.bashrc
+		config_file=/home/$realUser/.bashrc
 		zoxide_init='eval "$(zoxide init bash)"'
 	fi
 }
