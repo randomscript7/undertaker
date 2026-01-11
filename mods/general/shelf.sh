@@ -32,12 +32,23 @@ load_config() {
 		[[ $line =~ ^# ]] && continue
 		[[ -z $line ]] && continue
 
+		# Override default backup destination with definition in config file
 		if [[ $line =~ ^BACKUP_DEST= ]]; then
 			backup_dest="${line#BACKUP_DEST=}"
+		elif [[ $line =~ ^OPTIONAL_PATHS_PRESENT= ]]; then
+			optional_paths_present="${line#OPTIONAL_PATHS_PRESENT=}"
 		elif [[ ! -e "$line" ]]; then
-			echo "Error: Path $line does not exist."
-			exit 1
+			# Optional_paths_present bool determines whether invalid paths
+			# Are skipped with a warning or treated as errors 
+			if [[ "$optional_paths_present" == "true" ]]; then
+				echo "Warning: Optional path $line does not exist, skipping."
+				continue
+			else
+				echo "Error: Path $line does not exist."
+				exit 1
+			fi
 		else
+			# Valid file, add to backup list
 			backup_files+=("$line")
 		fi
 	done < "$config_file"
