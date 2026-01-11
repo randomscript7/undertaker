@@ -14,52 +14,84 @@ Header () {
 	echo -e "----------------------------------------------------"
 }
 
-# Constants
-BACKUP_BASE=~/backups
-UNDERTAKER_DIR=/usr/share/undertaker
-NOTES_FILE=~/Desktop/notes.txt
+# Function to load configuration
+load_config() {
+	local config_file="/usr/share/undertaker/config/shelf_config.txt"
+	if [[ ! -f "$config_file" ]]; then
+		echo "Error: Config file $config_file not found."
+		exit 1
+	fi
+
+	# What to back up
+	backup_files=()
+	# Where to back it up to (default)
+	backup_dest=/home/$realUser/backups
+
+	while IFS= read -r line; do
+		# Skip comments and empty lines
+		[[ $line =~ ^# ]] && continue
+		[[ -z $line ]] && continue
+
+		if [[ $line =~ ^BACKUP_DEST= ]]; then
+			backup_dest="${line#BACKUP_DEST=}"
+		elif [[ ! -e "$line" ]]; then
+			echo "Error: Path $line does not exist."
+			exit 1
+		else
+			backup_files+=("$line")
+		fi
+	done < "$config_file"
+
+	if [[ ${#backup_files[@]} -eq 0 ]]; then
+		echo "Error: No valid backup files specified in config."
+		exit 1
+	fi
+}
 
 # Function to set up backup folders and copy files
 setup_backup() {
 	local date=$1
 	echo "Creating backup folder..."
-	mkdir -p "$BACKUP_BASE/$date/raw"
+	mkdir -p "$backup_dest/$date/raw"
 	echo "-----------------------------"
 	echo "Copying files..."
-	sudo cp -r "$UNDERTAKER_DIR/" "$BACKUP_BASE/$date/raw/"
-	if [[ -f "$NOTES_FILE" ]]; then
-		sudo cp "$NOTES_FILE" "$BACKUP_BASE/$date/raw/"
-	fi
+	for file in "${backup_files[@]}"; do
+		if [[ -d "$file" ]]; then
+			sudo cp -r "$file" "$backup_dest/$date/raw/"
+		else
+			sudo cp "$file" "$backup_dest/$date/raw/"
+		fi
+	done
 }
 
 # Function to create archive
 create_archive() {
 	local date=$1
 	local include_raw=$2
-	cd "$BACKUP_BASE/$date"
+	cd "$backup_dest/$date"
 	echo "Creating archive via tar..."
 	if [[ "$include_raw" == "true" ]]; then
-		tar -czf "$date.tar.gz" "$BACKUP_BASE/$date/raw"
-		local suffix=".tar.gz"
+		tar -czf "$date.tar.gz" raw/
 	else
-		tar -czf "$date.tar" "$BACKUP_BASE/$date/raw"
-		rm -rf "$BACKUP_BASE/$date/raw"
-		local suffix=".tar"
+		tar -czf "$date.tar" raw/
+		rm -rf raw/
 	fi
 	cd ~
 	echo "-----------------------------"
 	echo "Files copied successfully."
-	echo "Backup for $date has been created."
+	echo "Backup for $date has been created in $backup_dest."
 }
 
-# This is a script that backs up/extracts the undertaker directory and notes file.
-# Plan to add custom file selection and backup location in the future
+# This is a script that backs up/extracts files based on config.
+# Edit /undertaker/config/shelf_config.txt to customize locations.
 
 Header
 echo ""
 echo "Running shelf..."
 echo "-----------------------------"
 read -p "Would you like to backup your selected files or extract a backup? (backup/extract): " operation
+
+load_config
 
 if [ "$operation" == "backup" ]; then
 
@@ -80,17 +112,17 @@ if [ "$operation" == "backup" ]; then
 
 elif [ "$operation" == "extract" ]; then
 
-	if [[ ! -d "$BACKUP_BASE" ]]; then
-		echo "No backups directory found."
+	if [[ ! -d "$backup_dest" ]]; then
+		echo "No backups directory found at $backup_dest."
 		exit 1
 	fi
 
 	echo "The backups for the following dates were found."
-	ls "$BACKUP_BASE"
+	ls "$backup_dest"
 	echo "-----------------------------"
 	read -p "Select one to extract: " extractable
 
-	if [[ ! -d "$BACKUP_BASE/$extractable" ]]; then
+	if [[ ! -d "$backup_dest/$extractable" ]]; then
 		echo "Backup $extractable not found."
 		exit 1
 	fi
@@ -99,7 +131,7 @@ elif [ "$operation" == "extract" ]; then
 	cd "$tmpdir"
 	echo "Extracting backup from $extractable..."
 	echo "-----------------------------"
-	tar -xzf "$BACKUP_BASE/$extractable/$extractable.tar" 2>/dev/null || tar -xzf "$BACKUP_BASE/$extractable/$extractable.tar.gz" 2>/dev/null
+	tar -xzf "$backup_dest/$extractable/$extractable.tar" 2>/dev/null || tar -xzf "$backup_dest/$extractable/$extractable.tar.gz" 2>/dev/null
 	if [[ $? -ne 0 ]]; then
 		echo "Failed to extract archive."
 		rm -rf "$tmpdir"
@@ -107,11 +139,16 @@ elif [ "$operation" == "extract" ]; then
 	fi
 	echo "Restoring files..."
 	echo "-----------------------------"
-	sudo rm -rf "$UNDERTAKER_DIR"
-	sudo mv "$tmpdir/undertaker" "$UNDERTAKER_DIR"
-	if [[ -f "$tmpdir/notes.txt" ]]; then
-		cp -f "$tmpdir/notes.txt" "$NOTES_FILE"
-	fi
+	# Restore based on original paths from config
+	for file in "${backup_files[@]}"; do
+		local basename_file=$(basename "$file")
+		if [[ -d "$tmpdir/$basename_file" ]]; then
+			sudo rm -rf "$file"
+			sudo mv "$tmpdir/$basename_file" "$file"
+		else
+			sudo cp -f "$tmpdir/$basename_file" "$file"
+		fi
+	done
 	rm -rf "$tmpdir"
 	echo "Files restored."
 

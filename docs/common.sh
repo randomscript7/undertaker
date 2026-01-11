@@ -15,11 +15,19 @@ Header () {
 	echo -e "----------------------------------------------------"
 }
 
+return_real_username() {
+	# Get the name of the user who invoked the script
+	# We do NOT need root's home directory
+	realUser=$(ls -ld /home/* 2>/dev/null | awk '{print $3}' | head -n 1)
+	echo "$realUser"
+}
+
 # Function to detect shell and set config file
 setup_shell_config() {
 	# Get the name of the user who invoked the script
 	# We do NOT need root's home directory
-	realUser=$(ls -ld /home/* 2>/dev/null | awk '{print $3}' | head -n 1)
+	#realUser=$(ls -ld /home/* 2>/dev/null | awk '{print $3}' | head -n 1)
+	realUser=$(return_real_username())	
 
 	if [[ -z "$SHELL" ]]; then
 		echo "WARNING: \$SHELL is unset. Assuming bash."
