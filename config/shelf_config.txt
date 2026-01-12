@@ -1,0 +1,15 @@
+# Config file for shelf.sh
+# Add filepaths for locations you want to back up (absolute filepaths required)
+# -----------
+# Use BACKUP_DEST= to set where you want stuff backed up to
+#BACKUP_DEST=/home/yourUsername/backups
+# Use OPTIONAL_PATHS_PRESENT= to set whether you want to skip invalid paths
+# Applicable use could be you are using the same config file for different machines
+# (Certain files may exist on one machine but not another)
+OPTIONAL_PATHS_PRESENT=true
+# -----------
+
+# By default, undertaker itself is the subject for backup
+# Along with a notes file :)
+/usr/share/undertaker
+/home/user/Desktop/notes.txt

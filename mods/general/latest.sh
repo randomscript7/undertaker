@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Update and upgrade packages, then remove unnecessary ones. Nice and simple.
+# Update and upgrade packages, then remove unnecessary ones. Nice and simple.
 echo ""
 echo "------------------------------------"
 echo "Starting update procedure."

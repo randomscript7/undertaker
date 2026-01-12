@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#config var bank
+# Config var bank
 waitTime=1
 
 # Opens menu to introduce script
@@ -65,10 +65,10 @@ Excecute(){
 
 		404)
 			echo "-----------"
-			echo "Due to the magnitude of undertaker, there may be several problems. These problems must be identified in order to be fixed easier."
 			echo "Anywhere an error could commonly occur, an error code will be returned. These error codes are as follows:"
-			echo "[Error codes have not yet been implemented]"
-			#Proper error codes will be added eventually
+			echo "Exit code 1: General error (incorrect input, unknown error, etc)"
+			echo "Exit code 5: Insufficient permissions"
+			# Proper error codes will be added eventually
 			exit 0
 			;;
 
@@ -83,48 +83,36 @@ Excecute(){
 			exit 0
 			;;
 
-		setup)
-			#If undertakerDeps.sh file is missing, it's already been set up
-			if ! test -f /usr/share/undertaker/docs/undertakerDeps.sh; then
-				
-				Header
-				echo "undertaker has already been set up, or is configured in a way that cannot be reverted by the undertaker setup utiliy."
-				echo "If you require an automatic setup, remove the old files manually and reclone the repository."
-				echo "For instructions on how to do a fresh undertaker install, check the README. "
-				exit 1
+ 		setup)
+ 			# Check for fresh repo
+ 			current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ 			if [[ "$current_dir" != *"/undertaker"* ]]; then
+ 				echo "Error: You must clone the repository to a directory named 'undertaker' as per the README. Setup aborted."
+ 				exit 1
+ 			fi
 
-			else
-	
-				#Complete setup tasks, then delete undertakerDeps.sh
+			sudo chmod +x "$current_dir/docs/manage.sh"
+			if [ -f /bin/undertaker.sh ] || [ -d /usr/share/undertaker ]; then
+				# Existing installation detected
 				Header
-				echo "Entering undertaker setup..."
-				sleep 0.5;
-				echo "If you're here, you just cloned the undertaker github repository."
-				echo "You can CTRL-C to exit this if it was on accident."
-				echo "If not, your newly cloned repository will be cleaned up for you."
-				sleep 1; # I never used to need these semicolons, but it seems I might now
-				echo "----------"
-				echo "Giving modules executable permissions..."
-				sudo chmod +x /usr/share/undertaker/mods/general/*
-				sudo chmod +x /usr/share/undertaker/mods/pentest/*
-				sudo chmod +x /usr/share/undertaker/docs/undertakerDeps.sh
-				echo "Done."
-				echo "----------"
-				echo "Installing dependencies..."
-				sudo mv /usr/share/undertaker/docs/undertakerDeps.sh /bin/undertakerDeps.sh
-				sudo undertakerDeps.sh
-				echo "Done."
-				echo "----------"
-				echo "The setup process has finished."
-				sudo rm /bin/undertakerDeps.sh
-				exit 0
-	
+				echo "Undertaker appears to already be installed."
+				read -p "Do you want to reinstall (overwrite existing files)? (y/n): " confirm
+				if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+					echo "Reinstall cancelled."
+					exit 0
+				fi
+
+				sudo "$current_dir/docs/manage.sh" --reinstall
+			else
+				# No installation detected - proceed with fresh install
+				sudo "$current_dir/docs/manage.sh" --install
 			fi
-			;;
+ 			exit 0
+ 			;;
 
 		config)
-			#Integrated setVar.sh for undertaker.sh
-			#Useless for now, may be expanded later on
+			# Integrated setVar.sh for undertaker.sh
+			# Useless for now, may be expanded later on
 			Header
 			echo "The following settings can be changed: "
 			echo "waitTime - Time the undertaker.sh header is shown before starting a module"
@@ -142,6 +130,44 @@ Excecute(){
 				sudo sed -i "147 s/waitTime=[0-9]/waitTime=$newSet/" /bin/undertaker.sh
 			fi
 
+			exit 0
+			;;
+
+		--help)
+			echo "----------"
+			echo "Undertaker.sh Help Menu"
+			echo "This is the main script that connects all undertaker modules."
+			echo "You may run this script without arguments for a wizard-based experience."
+			echo "You may also run this script with a module code as an argument to fast-track to that module."
+			echo "Scripts which require certain filepaths have been written to allow running both with/without sudo."
+			echo "Examples:"
+			echo "  > sudo undertaker.sh latest"
+			echo "  > undertaker.sh hashcracker"
+			echo ""
+			echo "Available module codes:"
+			echo "latest     - Runs the latest.sh module to update the system."
+			echo "setVar     - Runs the setVar.sh module to set undertaker variables."
+			echo "shelf      - Runs the shelf.sh module to backup/extract files."
+			echo "hashcracker- Runs the hashcracker.sh module to brute-force hashes."
+			echo "hashmaker  - Runs the hashmaker.sh module to create hashes using openssl."
+			echo "404        - Displays undertaker.sh error codes."
+			echo "search     - Searches moduleList.txt for modules matching your search terms."
+			echo "setup      - Sets Undertaker up on your system."
+			echo "config     - Configures undertaker.sh settings."
+			echo "uninstall  - Uninstalls undertaker from the system."
+			echo ""
+			exit 0
+			;;
+
+		--version)
+			echo "----------"
+			echo "Undertaker.sh Version 1.0.0"
+			echo "A script networking tool written by randomscript7"
+			echo "----------"
+			echo "Disclaimer: I very probably forgot to update this version number at some point..."
+			echo "Unless the version is in the form x.y.0, Assume this is slightly outdated."
+			echo -e ":)"
+			echo ""
 			exit 0
 			;;
 
@@ -170,6 +196,11 @@ Excecute(){
 		#
 		# -- Comment out unfinished submodule --
 
+ 		uninstall)
+ 			sudo /usr/share/undertaker/docs/manage.sh --uninstall
+ 			exit 0
+ 			;;
+
 		*)
 			echo "----------"
 			echo "That isn't a valid module. If it exists, check to make sure it's downloaded in the /undertaker directory and that it's included in the undertaker.sh file."
@@ -192,8 +223,8 @@ if [ "$#" -eq 0 ]; then
 	echo "It has little function of its own other than connecting 'modules' (scripts) to a centralized tool."
 	echo "This allows documentation and heightened ease of use of numerous tools that would usually be understood only by its creator."
 	echo "-----------"
-	
-	#This prompts the user to pick a module, and executes it
+
+	# This prompts the user to pick a module, and executes it
 	modulePicker
 else
 	# If this script was invoked with a module code, go to that module directly

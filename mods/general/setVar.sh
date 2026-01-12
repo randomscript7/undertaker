@@ -43,7 +43,7 @@ Excecute(){
 
 		powerLimit)
 
-			#Value that defines whether Smart Charging is on or off
+			# Value that defines whether Smart Charging is on or off
 			SmartCharge=true;
 
 			#--
@@ -52,63 +52,63 @@ Excecute(){
 			# When enabling, it will write disabled; but still output "enabled"
 			# ex. Edit conf file > Set $Smartcharge true > Write $Endis "disabled" 
 			#--
-			#Text value that says what powerLimit was toggled to
+			# Text value that says what powerLimit was toggled to
 			Endis="disabled"
 
-			#Enable smart charging
+			# Enable smart charging
 			Efind="#STOP_CHARGE_THRESH_BAT0=65"
 			Efind2="#START_CHARGE_THRESH_BAT0=60"
    			Ereplace="STOP_CHARGE_THRESH_BAT0=65"
 			Ereplace2="START_CHARGE_THRESH_BAT0=60"
 			
-			#Disable smart charging
+			# Disable smart charging
 			Dfind="STOP_CHARGE_THRESH_BAT0=65"
 			Dfind2="START_CHARGE_THRESH_BAT0=60"
    	    	Dreplace="#STOP_CHARGE_THRESH_BAT0=65"
 			Dreplace2="#START_CHARGE_THRESH_BAT0=60"
 
 			if $SmartCharge; then
-				#It's on, so disable it
+				# It's on, so disable it
 				
-				#Comment it out
+				# Comment it out
 				sudo sed -e "/$Dfind/ s/^#*/#/" -i /etc/tlp.conf
 				sudo sed -e "/$Dfind2/ s/^#*/#/" -i /etc/tlp.conf
 				
-				#Set $SmartCharge=false;
+				# Set $SmartCharge=false;
 				sudo sed -i "41 s/true/false/g" /usr/share/undertaker/mods/general/setVar.sh
 				
-				#Set $Endis to enabled (For next script use.. read line 43)
+				# Set $Endis to enabled (For next script use.. read line 43)
 				sudo sed -i "50 s/disabled/enabled/g" /usr/share/undertaker/mods/general/setVar.sh	
 				
-				#Disable tlp in systemctl
+				# Disable tlp in systemctl
 				sudo systemctl disable --now tlp
 
-				#Uncomment to debug
-				#Print what $Endis is set to
+				# Uncomment to debug
+				# Print what $Endis is set to
 				#sudo sed -n '50p;' /usr/share/undertaker/mods/general/setVar.sh
-				#Check conf file to see if the settings are commented or not
+				# Check conf file to see if the settings are commented or not
 				#cat /etc/tlp.conf | grep -i "THRESH_BAT0"
 
 			elif ! $SmartCharge; then
-				#It's off, so enable it
+				# It's off, so enable it
 				
-				#Uncomment it
+				# Uncomment it
 				sudo sed -i "535 s/$Efind/$Ereplace/g" /etc/tlp.conf
 				sudo sed -i "533 s/$Efind2/$Ereplace2/g" /etc/tlp.conf
 				
-				#Set $SmartCharge=true;
+				# Set $SmartCharge=true;
 				sudo sed -i "41 s/false/true/g" /usr/share/undertaker/mods/general/setVar.sh
 
-				#Set $Endis to disabled (For next script use.. read line 43)
+				# Set $Endis to disabled (For next script use.. read line 43)
 				sudo sed -i "50 s/enabled/disabled/g" /usr/share/undertaker/mods/general/setVar.sh
 
 				# Enable tlp in systemctl
 				sudo systemctl enable --now tlp
 
 				# The following commands can be uncommented to help debug
-				#Print what $Endis is set to
+				# Print what $Endis is set to
 				#sudo sed -n '50p;' /usr/share/undertaker/mods/general/setVar.sh
-				#Check conf file to see if the settings are commented or not
+				# Check conf file to see if the settings are commented or not
 				#cat /etc/tlp.conf | grep -i "THRESH_BAT0"
 			
 			else
@@ -130,12 +130,12 @@ Excecute(){
 			echo "There may be several problems. These problems must be identified in order to be fixed easier."
 			echo "Anywhere an error could commonly occur, an error code will be returned. These error codes are as follows:"
 			echo "Error code 1 - invalid input"
-			#I'll add error codes as I finish stuff
+			# I'll add error codes as I finish stuff
 			exit 0
 			;;
 
 		search)
-			#Something for the future when more settings are added
+			# Something for the future when more settings are added
 			echo "----------"
 			read -p "Enter your search terms: " searchTerm
 			echo "Searching moduleList.txt for scripts containing the term '$searchTerm'"
@@ -154,7 +154,7 @@ Excecute(){
 }
 
 
-#this uses the Excecute function to do a certain task
+# This uses the Excecute function to do a certain task
 taskPicker
 
 
