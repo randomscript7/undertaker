@@ -210,7 +210,7 @@ Excecute(){
 	esac
 }
 
-# ---------- Script starts here ----------------
+# ----------SCRIPT STARTS HERE----------------
 
 # Detect whether the script was executed with an argument or not
 if [ "$#" -eq 0 ]; then	

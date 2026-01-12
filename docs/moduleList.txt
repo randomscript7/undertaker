@@ -4,7 +4,7 @@ latest - Debian systems should have their packages updated regularly. This task 
 -----------
 hashmaker - Creates a hash of a string using openssl.
 ----------
-shelf - Create a backup of files/directories you provide.
+helf - Create a backup of files/directories you provide.
 -----------
 setVar - Little version of undertaker to toggle common settings like Smart Charging.
 -----------
